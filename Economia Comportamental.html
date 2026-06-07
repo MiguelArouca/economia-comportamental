@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Economia Comportamental · Guia de Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz@1,6..72&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0e13; --bg2:#12141b; --panel:#161922; --panel2:#1c2030;
+  --line:#262b39; --line2:#333a4d;
+  --tx:#e7e9f0; --tx2:#aeb4c6; --tx3:#7e879e;
+  --accent:#22d3ee; --accent-d:#0e7490; --accent-glow:rgba(34,211,238,.16);
+  /* part palette */
+  --p1:#94a3b8; --p2:#22d3ee; --p3:#a78bfa; --p4:#fbbf24; --p5:#34d399;
+  --warn:#fb7185; --ok:#34d399;
+  --display:'Bricolage Grotesque',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --serif:'Newsreader',Georgia,serif;
+  --sidebar:268px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:24px}
+body{
+  margin:0; background:var(--bg); color:var(--tx);
+  font-family:var(--body); font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(34,211,238,.07), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(167,139,250,.06), transparent 55%);
+  background-attachment:fixed;
+}
+/* ---------- progress bar ---------- */
+#progress{position:fixed; top:0; left:0; height:3px; width:0%; z-index:120;
+  background:linear-gradient(90deg,var(--p2),var(--p3),var(--p4)); box-shadow:0 0 12px rgba(34,211,238,.5); transition:width .1s linear}
+/* ---------- layout ---------- */
+.shell{display:flex; min-height:100vh}
+/* ---------- sidebar ---------- */
+#sidebar{
+  width:var(--sidebar); flex-shrink:0; position:sticky; top:0; height:100vh;
+  border-right:1px solid var(--line); background:rgba(13,14,19,.82); backdrop-filter:blur(12px);
+  padding:26px 18px 40px; overflow-y:auto; z-index:90;
+}
+.brand{font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:-.02em; line-height:1.15; margin-bottom:4px}
+.brand b{color:var(--accent)}
+.brand-sub{font-size:11.5px; color:var(--tx3); font-family:var(--mono); text-transform:uppercase; letter-spacing:.12em; margin-bottom:22px}
+.nav a{display:block; color:var(--tx2); text-decoration:none; font-size:14px; padding:6px 10px; border-radius:8px; transition:.15s; border-left:2px solid transparent}
+.nav a:hover{color:var(--tx); background:var(--panel)}
+.nav a.sub{font-size:12.5px; padding-left:24px; color:var(--tx3)}
+.nav a.active{color:var(--tx); background:var(--panel2); border-left-color:var(--accent)}
+.nav .grp{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.14em; color:var(--tx3); margin:18px 0 6px 10px}
+.nav .dot{display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:8px; vertical-align:middle}
+/* ---------- main ---------- */
+main{flex:1; min-width:0; padding:0 clamp(20px,5vw,72px)}
+.wrap{max-width:900px; margin:0 auto; padding:54px 0 120px}
+section{scroll-margin-top:20px}
+.part{padding-top:46px; margin-top:30px}
+/* ---------- hero ---------- */
+.hero{padding:30px 0 10px}
+.kicker{font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:14px}
+.hero h1{font-family:var(--display); font-weight:800; font-size:clamp(38px,6vw,68px); line-height:1.02; letter-spacing:-.03em; margin:0 0 18px}
+.hero h1 .g{background:linear-gradient(120deg,var(--p2),var(--p3) 55%,var(--p4)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hero p.lead{font-size:18px; color:var(--tx2); max-width:640px; margin:0 0 8px}
+.hero .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px}
+.chip{font-family:var(--mono); font-size:11.5px; color:var(--tx2); border:1px solid var(--line2); border-radius:999px; padding:5px 12px; background:var(--panel)}
+/* ---------- headings ---------- */
+.part-head{display:flex; align-items:center; gap:16px; margin-bottom:8px}
+.part-num{font-family:var(--display); font-weight:800; font-size:clamp(34px,5vw,52px); line-height:1; color:var(--accent); opacity:.9}
+.part-head h2{font-family:var(--display); font-weight:700; font-size:clamp(24px,3.4vw,34px); letter-spacing:-.02em; margin:0; line-height:1.08}
+.accent-bar{height:4px; width:64px; border-radius:4px; background:var(--accent); box-shadow:0 0 16px var(--accent-glow); margin:14px 0 26px}
+h3.sub-head{font-family:var(--display); font-weight:600; font-size:22px; letter-spacing:-.01em; margin:40px 0 4px; display:flex; align-items:baseline; gap:10px}
+h3.sub-head .tag{font-family:var(--mono); font-size:12px; color:var(--accent); font-weight:500}
+h4.mini{font-family:var(--display); font-weight:600; font-size:17px; margin:26px 0 10px; color:var(--tx)}
+p{margin:0 0 14px}
+.muted{color:var(--tx2)}
+strong{color:#fff; font-weight:600}
+em.t{font-style:normal; color:var(--accent); font-weight:500}
+/* ---------- concept cards ---------- */
+.grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin:16px 0}
+.card{background:linear-gradient(180deg,var(--panel),var(--bg2)); border:1px solid var(--line); border-radius:14px; padding:16px 18px; transition:.18s}
+.card:hover{border-color:var(--line2); transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.card .term{font-family:var(--display); font-weight:600; font-size:16.5px; color:#fff; margin-bottom:5px; display:flex; align-items:center; gap:8px}
+.card .term .ic{color:var(--accent)}
+.card .def{font-size:14.5px; color:var(--tx2); line-height:1.55}
+.card .def b{color:var(--tx)}
+/* ---------- callouts ---------- */
+.callout{border-radius:12px; padding:14px 16px 14px 18px; margin:18px 0; border:1px solid var(--line); border-left:3px solid var(--accent); background:var(--panel); font-size:14.5px}
+.callout .lbl{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; margin-bottom:6px; color:var(--accent)}
+.callout.ex{border-left-color:var(--p5)} .callout.ex .lbl{color:var(--p5)}
+.callout.warn{border-left-color:var(--warn); background:rgba(251,113,133,.06)} .callout.warn .lbl{color:var(--warn)}
+.callout.key{border-left-color:var(--p4); background:rgba(251,191,36,.05)} .callout.key .lbl{color:var(--p4)}
+/* ---------- quote ---------- */
+.quote{font-family:var(--serif); font-style:italic; font-size:18px; color:var(--tx); line-height:1.5; border-left:3px solid var(--line2); padding:4px 0 4px 20px; margin:20px 0}
+.quote cite{display:block; font-family:var(--mono); font-style:normal; font-size:12px; color:var(--tx3); margin-top:8px; letter-spacing:.04em}
+/* ---------- author tag ---------- */
+.authors{display:flex; gap:7px; flex-wrap:wrap; margin:10px 0 4px}
+.atag{font-family:var(--mono); font-size:11.5px; color:var(--tx2); background:var(--panel2); border:1px solid var(--line); border-radius:6px; padding:3px 9px}
+.atag b{color:var(--accent); font-weight:500}
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:420px}
+th,td{text-align:left; padding:10px 13px; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:var(--panel2); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); font-weight:600}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--panel)}
+td b{color:#fff}
+.t-hl{color:var(--p5)!important}
+/* ---------- saber mais (accordion) ---------- */
+.more{margin:16px 0; border:1px dashed var(--line2); border-radius:12px; overflow:hidden; background:rgba(255,255,255,.012)}
+.more>summary{cursor:pointer; list-style:none; padding:12px 16px; font-family:var(--mono); font-size:12.5px; color:var(--tx2); display:flex; align-items:center; gap:10px; user-select:none}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary .plus{color:var(--accent); transition:.2s; font-size:15px}
+.more[open]>summary .plus{transform:rotate(45deg)}
+.more>summary:hover{color:var(--tx)}
+.more .more-body{padding:2px 16px 16px; font-size:14px; color:var(--tx2); border-top:1px solid var(--line)}
+.more .src{font-family:var(--mono); font-size:11.5px; color:var(--p3)}
+/* ---------- diagram frame ---------- */
+.diagram{background:radial-gradient(120% 120% at 50% 0%,var(--panel),var(--bg2)); border:1px solid var(--line); border-radius:16px; padding:22px; margin:22px 0; text-align:center}
+.diagram .d-cap{font-family:var(--mono); font-size:11.5px; color:var(--tx3); text-transform:uppercase; letter-spacing:.1em; margin-top:14px}
+.diagram svg{max-width:100%; height:auto}
+/* ---------- TL;DR super-compilação ---------- */
+.tldr{margin:42px 0 8px; border-radius:18px; padding:24px 26px; position:relative; overflow:hidden;
+  background:linear-gradient(160deg,rgba(34,211,238,.08),rgba(167,139,250,.05)); border:1px solid var(--line2)}
+.tldr::before{content:""; position:absolute; inset:0; background:var(--accent); opacity:.04}
+.tldr h4{font-family:var(--display); font-weight:700; font-size:18px; margin:0 0 12px; display:flex; align-items:center; gap:10px; color:#fff}
+.tldr h4 .spark{color:var(--accent)}
+.tldr ul{margin:0; padding-left:0; list-style:none}
+.tldr li{position:relative; padding:5px 0 5px 24px; font-size:14.5px; color:var(--tx2); border-bottom:1px solid rgba(255,255,255,.04)}
+.tldr li:last-child{border-bottom:none}
+.tldr li::before{content:"▸"; position:absolute; left:4px; color:var(--accent)}
+.tldr li b{color:#fff; font-weight:600}
+/* ---------- exam ---------- */
+.exam-intro{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:20px 0}
+.qcard{border:1px solid var(--line); border-radius:16px; margin:18px 0; overflow:hidden; background:linear-gradient(180deg,var(--panel),var(--bg2))}
+.qcard .qhead{padding:16px 20px; display:flex; gap:14px; align-items:flex-start}
+.qcard .qn{font-family:var(--display); font-weight:800; font-size:26px; color:var(--accent); line-height:1; flex-shrink:0}
+.qcard .qmeta{font-family:var(--mono); font-size:11px; color:var(--tx3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px}
+.qcard .qtext{font-size:15.5px; color:var(--tx); font-family:var(--serif); font-style:italic; line-height:1.5}
+.reveal-btn{margin:0 20px 16px; cursor:pointer; font-family:var(--mono); font-size:12.5px; color:var(--bg); background:var(--accent); border:none; padding:9px 16px; border-radius:9px; font-weight:600; transition:.18s; letter-spacing:.03em}
+.reveal-btn:hover{filter:brightness(1.12); box-shadow:0 0 18px var(--accent-glow)}
+.answer{display:none; padding:4px 20px 22px; border-top:1px solid var(--line); animation:fade .4s ease}
+.answer.show{display:block}
+.answer .albl{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--p5); margin:16px 0 8px}
+.answer h5{font-family:var(--display); font-weight:600; font-size:15px; margin:16px 0 6px; color:#fff}
+.answer ul{margin:6px 0 12px; padding-left:20px} .answer li{margin:4px 0; color:var(--tx2); font-size:14.5px}
+@keyframes fade{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+/* ---------- glossary ---------- */
+.gsearch{position:relative; margin:18px 0 22px}
+.gsearch input{width:100%; background:var(--panel); border:1px solid var(--line2); border-radius:12px; padding:14px 16px 14px 44px; color:var(--tx); font-family:var(--body); font-size:15px; outline:none; transition:.18s}
+.gsearch input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow)}
+.gsearch .si{position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--tx3)}
+.gsearch .gcount{font-family:var(--mono); font-size:11.5px; color:var(--tx3); margin-top:8px}
+.gitem{border-bottom:1px solid var(--line); padding:13px 4px}
+.gitem .gt{font-family:var(--display); font-weight:600; font-size:16px; color:#fff}
+.gitem .gt .pp{font-family:var(--mono); font-size:10.5px; font-weight:500; padding:2px 7px; border-radius:5px; margin-left:8px; vertical-align:middle}
+.gitem .gd{font-size:14px; color:var(--tx2); margin-top:3px}
+.gitem mark{background:var(--accent); color:var(--bg); border-radius:3px; padding:0 2px}
+.gitem.hide{display:none}
+.no-res{color:var(--tx3); font-style:italic; padding:20px 4px; display:none}
+/* ---------- reveal-on-scroll ---------- */
+.r{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease}
+.r.in{opacity:1; transform:none}
+/* ---------- footer ---------- */
+.foot{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; color:var(--tx3); font-family:var(--mono)}
+/* ---------- mobile nav ---------- */
+#menuBtn{display:none}
+.topbar{display:none}
+@media(max-width:880px){
+  .shell{flex-direction:column}
+  #sidebar{position:fixed; top:0; left:0; width:min(86vw,320px); height:100vh; transform:translateX(-104%); transition:transform .28s ease; box-shadow:0 0 60px rgba(0,0,0,.6)}
+  #sidebar.open{transform:none}
+  .topbar{display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:80; padding:12px 16px;
+    background:rgba(13,14,19,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  #menuBtn{display:inline-flex; flex-direction:column; gap:4px; background:none; border:none; cursor:pointer; padding:6px}
+  #menuBtn span{width:22px; height:2px; background:var(--tx); border-radius:2px; transition:.2s}
+  .topbar .tb-title{font-family:var(--display); font-weight:700; font-size:15px}
+  .topbar .tb-title b{color:var(--accent)}
+  .wrap{padding:24px 0 90px}
+  .hero h1{font-size:38px}
+  #scrim{position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:85; opacity:0; pointer-events:none; transition:.25s}
+  #scrim.show{opacity:1; pointer-events:auto}
+}
+@media(max-width:880px){ main{padding:0 18px} }
+
+/* ===================== PAGED / SPA ===================== */
+.page{display:none}
+.page.active{display:block; animation:pageIn .4s ease}
+@keyframes pageIn{from{opacity:0; transform:translateY(12px)}to{opacity:1; transform:none}}
+
+/* sidebar collapse (desktop) */
+.brandrow{display:flex; align-items:flex-start; gap:10px}
+#sbToggle{margin-left:auto; background:none; border:1px solid var(--line2); color:var(--tx2); border-radius:8px; cursor:pointer; padding:3px 8px; font-size:14px; line-height:1; transition:.15s}
+#sbToggle:hover{color:var(--tx); border-color:var(--accent)}
+#sidebar{transition:width .28s ease, padding .28s ease, opacity .2s ease}
+.shell.collapsed #sidebar{width:0; min-width:0; padding-left:0; padding-right:0; opacity:0; overflow:hidden; border-right:none}
+#sbOpen{position:fixed; left:16px; top:16px; z-index:95; display:none; align-items:center; gap:8px; background:rgba(13,14,19,.9); backdrop-filter:blur(8px); border:1px solid var(--line2); color:var(--tx); border-radius:10px; padding:9px 13px; cursor:pointer; font-family:var(--mono); font-size:12.5px; box-shadow:0 8px 24px rgba(0,0,0,.4)}
+#sbOpen:hover{border-color:var(--accent)}
+.shell.collapsed #sbOpen{display:inline-flex}
+@media(max-width:880px){ #sbToggle{display:none} .shell.collapsed #sbOpen{display:none} }
+
+/* home floating cards */
+.home-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:16px; margin:26px 0 10px}
+.hcard{position:relative; border:1px solid var(--line); border-radius:16px; padding:20px; cursor:pointer; background:linear-gradient(180deg,var(--panel),var(--bg2)); transition:.22s; overflow:hidden}
+.hcard::after{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--hc); opacity:.8}
+.hcard:hover{transform:translateY(-5px); border-color:var(--hc); box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.hcard .hc-num{font-family:var(--display); font-weight:800; font-size:30px; color:var(--hc); line-height:1}
+.hcard h3{font-family:var(--display); font-weight:600; font-size:18px; margin:10px 0 6px; color:#fff; letter-spacing:-.01em}
+.hcard p{font-size:13.5px; color:var(--tx2); margin:0 0 14px; line-height:1.5}
+.hcard .hc-go{font-family:var(--mono); font-size:12px; color:var(--hc)}
+.start-wrap{display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:30px 0 8px}
+.start-btn{display:inline-flex; align-items:center; gap:11px; background:linear-gradient(120deg,var(--p2),var(--p3)); color:#06121a; font-weight:700; font-family:var(--display); font-size:17px; padding:15px 28px; border-radius:14px; border:none; cursor:pointer; box-shadow:0 12px 34px rgba(34,211,238,.28); transition:.2s}
+.start-btn:hover{transform:translateY(-3px); filter:brightness(1.06)}
+.start-hint{font-family:var(--mono); font-size:12.5px; color:var(--tx3)}
+.scroll-cue{text-align:center; color:var(--tx3); font-family:var(--mono); font-size:12px; margin:34px 0 0; animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* footer page nav */
+.pagenav{display:flex; align-items:stretch; gap:12px; margin:54px 0 10px; padding-top:26px; border-top:1px solid var(--line)}
+.pagenav .pn{flex:1; text-align:left; border:1px solid var(--line2); border-radius:13px; padding:13px 17px; color:var(--tx2); cursor:pointer; background:var(--panel); transition:.18s; font-family:var(--body); font-size:14.5px; display:flex; flex-direction:column; justify-content:center}
+.pagenav .pn:hover{color:var(--tx); border-color:var(--accent); background:var(--panel2)}
+.pagenav .pn.next{text-align:right; align-items:flex-end}
+.pagenav .pn small{font-family:var(--mono); font-size:10.5px; color:var(--tx3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:3px}
+.pagenav .pn.disabled{opacity:.35; pointer-events:none}
+.pagenav .deeper{flex:0 0 auto; text-align:center; align-items:center; justify-content:center; min-width:160px; background:linear-gradient(120deg,rgba(34,211,238,.16),rgba(167,139,250,.14)); border-color:var(--accent)}
+.pagenav .deeper b{color:var(--accent); font-family:var(--display); font-weight:700}
+.pagenav .deeper small{color:var(--accent)}
+@media(max-width:880px){ .pagenav{flex-direction:column} .pagenav .deeper{order:-1} }
+
+/* deep dive */
+.deep-banner{display:flex; align-items:center; gap:16px; background:linear-gradient(120deg,rgba(34,211,238,.1),transparent 70%); border:1px solid var(--line2); border-left:4px solid var(--accent); border-radius:16px; padding:18px 22px; margin:6px 0 22px}
+.deep-banner .di{font-size:30px; line-height:1}
+.deep-banner .dt small{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent)}
+.deep-banner .dt h2{font-family:var(--display); font-weight:700; font-size:clamp(22px,3vw,30px); margin:3px 0 0; letter-spacing:-.02em}
+.deep-banner .dt p{margin:6px 0 0; font-size:14px; color:var(--tx2)}
+.deep-text p{font-size:15.5px; color:var(--tx)} .deep-text p .muted{color:var(--tx2)}
+
+/* glossary tiles + modal */
+.gtiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(186px,1fr)); gap:12px; margin:18px 0}
+.gtile{border:1px solid var(--line); border-radius:13px; padding:15px 16px; cursor:pointer; background:linear-gradient(180deg,var(--panel),var(--bg2)); transition:.18s; position:relative; min-height:96px; display:flex; flex-direction:column; justify-content:space-between}
+.gtile:hover{transform:translateY(-3px); border-color:var(--gc); box-shadow:0 12px 28px rgba(0,0,0,.32)}
+.gtile .gt-term{font-family:var(--display); font-weight:600; font-size:15.5px; color:#fff; line-height:1.22}
+.gtile .gt-part{font-family:var(--mono); font-size:10px; align-self:flex-start; padding:2px 7px; border-radius:5px; color:var(--gc); background:color-mix(in srgb, var(--gc) 14%, transparent)}
+.gtile.hide{display:none}
+.gmodal{position:fixed; inset:0; z-index:140; display:none; align-items:center; justify-content:center; padding:20px}
+.gmodal.open{display:flex}
+.gmodal-bg{position:absolute; inset:0; background:rgba(5,6,10,.72); backdrop-filter:blur(5px)}
+.gmodal-card{position:relative; max-width:560px; width:100%; max-height:86vh; overflow-y:auto; background:linear-gradient(180deg,var(--panel),var(--bg2)); border:1px solid var(--line2); border-radius:20px; padding:28px; animation:pageIn .28s ease}
+.gm-close{position:absolute; top:14px; right:16px; background:none; border:none; color:var(--tx3); font-size:24px; cursor:pointer; line-height:1}
+.gm-close:hover{color:var(--tx)}
+.gm-term{font-family:var(--display); font-weight:700; font-size:25px; color:#fff; margin:0 0 4px; padding-right:34px; letter-spacing:-.02em}
+.gm-pill{font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:6px}
+.gm-label{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); margin:18px 0 6px}
+.gm-summary{font-size:15px; color:var(--tx); line-height:1.55}
+.gm-detail{font-size:14.5px; color:var(--tx2); line-height:1.6}
+.gm-goto{display:inline-flex; align-items:center; gap:9px; margin-top:8px; cursor:pointer; background:var(--panel2); border:1px solid var(--line2); border-radius:11px; padding:10px 15px; color:var(--tx); font-size:13.5px; font-family:var(--body); transition:.16s}
+.gm-goto:hover{border-color:var(--accent); color:#fff}
+.gm-goto .arr{color:var(--accent)}
+
+/* ===== open-sidebar button (clearer icon) ===== */
+#sbOpen{gap:9px; padding:10px 14px}
+#sbOpen .ham{display:inline-flex; flex-direction:column; gap:3px}
+#sbOpen .ham i{width:16px; height:2px; background:var(--accent); border-radius:2px; display:block; transition:.2s}
+#sbOpen:hover .ham i{background:#fff}
+@media(min-width:881px){ .shell.collapsed .wrap{padding-top:76px} }
+
+/* ===== H.U.M.I.L.D.A.D.E credit / logo ===== */
+.credit{display:flex; align-items:center; gap:14px; margin-bottom:16px}
+.credit-mark{width:50px; height:auto; color:var(--p2); flex-shrink:0}
+.credit-name{font-family:var(--display); font-weight:700; letter-spacing:.18em; color:var(--tx); font-size:15px}
+.credit-role{font-family:var(--mono); font-size:11.5px; color:var(--tx3); margin-top:3px; letter-spacing:.04em}
+.foot-note{font-family:var(--mono); font-size:12px; color:var(--tx3); line-height:1.6}
+.foot-tag{display:inline-block; margin-top:16px; font-family:var(--display); font-weight:700; letter-spacing:.14em; font-size:14px; color:var(--p2); border:1px solid color-mix(in srgb,var(--p2) 35%, transparent); background:color-mix(in srgb,var(--p2) 10%, transparent); border-radius:999px; padding:7px 16px}
+.sb-credit{margin-top:22px; padding-top:16px; border-top:1px solid var(--line); display:flex; align-items:center; gap:11px}
+.sb-credit svg{width:30px; height:auto; color:var(--p2); flex-shrink:0}
+.sb-credit b{font-family:var(--display); font-weight:600; letter-spacing:.13em; font-size:12px; color:var(--tx2); display:block}
+.sb-credit small{font-family:var(--mono); font-size:9.5px; color:var(--tx3); letter-spacing:.06em}
+
+/* ===== cross-references inside answers ===== */
+.refs{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px; align-items:center}
+.refs .rlbl{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--tx3)}
+.ref{font-family:var(--mono); font-size:11.5px; color:var(--p2); background:color-mix(in srgb,var(--p2) 13%, transparent); border:1px solid color-mix(in srgb,var(--p2) 32%, transparent); border-radius:999px; padding:4px 11px; cursor:pointer; transition:.15s}
+.ref:hover{background:var(--p2); color:var(--bg); border-color:var(--p2)}
+.ref::before{content:"↪ "}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar">
+  <button id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  <div class="tb-title">Economia <b>Comportamental</b></div>
+</div>
+<div id="scrim"></div>
+
+<!-- Logótipo H.U.M.I.L.D.A.D.E (símbolo reutilizável) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-humildade" viewBox="345 88 720 445">
+  <g transform="matrix(1.375,0,0,1.375,0,0)" fill="currentColor">
+    <path d="M530.867,112.614C531.443,106.734 531.615,102.971 533.179,103.72C534.215,104.216 532.435,118.222 532.276,119.475C531.342,125.104 531.285,125.015 529.62,130.538C528.912,132.525 528.203,134.512 527.495,136.498C525.462,141.991 525.326,141.826 523.415,147.471C520.711,155.18 520.993,155.212 518.227,165.447C517.13,170.429 516.891,170.291 515.156,181.438C513.083,192.814 512.837,201.072 512.174,209.492C512.147,212.144 512.119,214.796 512.092,217.448C512.054,219.175 511.62,238.938 512.825,239.026C514.749,239.165 513.616,237.718 521.952,216.712C524.687,212.359 524.024,211.902 529.753,205.794C531.42,204.479 533.088,203.164 534.755,201.849C539.702,199.228 539.609,199.195 544.664,196.934C549.087,195.642 557.26,192.823 564.666,193.211C566.1,195.857 563.692,202.714 561.595,209.529C554.956,224.976 551.427,234.723 525.394,238.998C525.112,238.884 523.481,239.185 524.541,236.518C528.714,226.025 540.554,214.904 542.256,213.305C549.916,206.11 536.8,211.454 526.058,226.144C517.746,237.51 517.519,244.36 516.19,249.442C515.214,258.497 515.085,258.482 516.026,272.537C516.508,279.09 516.431,278.987 516.93,285.485C517.772,294.547 517.727,294.481 518.221,303.537C519.569,335.895 518.571,340.086 518.224,344.54C517.847,349.38 523.254,341.327 531.636,333.634C538.646,327.108 538.619,327.166 545.784,320.883C548.462,318.906 548.426,318.874 548.661,318.706C555.865,312.925 568.764,304.732 570.561,303.591C579.856,298.278 579.8,298.22 580.615,297.774C598.226,289.193 598.127,289.143 616.634,282.856C617.748,282.536 624.526,280.588 630.559,278.843C640.57,276.432 640.486,276.546 650.534,274.628C651.884,274.401 662.063,272.691 667.465,272.159C694.884,269.456 699.673,272.365 697.11,268.71C674.395,236.308 674.757,236.123 672.751,233.333C670.166,229.363 670.26,229.373 667.52,225.488C664.562,221.396 664.747,221.4 661.823,217.225C660.236,214.746 660.283,214.822 658.54,212.454C656.2,211.612 653.032,210.472 627.464,212.015C620.893,212.408 620.988,212.423 614.495,213.071C608.722,213.915 599.37,214.43 578.495,220.487C566.226,224.713 566.072,225.52 564.572,224.485C565.912,221.561 565.913,221.584 566.02,221.327C566.593,219.952 566.271,219.939 566.814,218.634C569.037,213.969 568.814,212.877 583.666,207.988C597.952,204.176 597.923,204.271 612.563,201.968C618.655,201.369 618.545,201.113 633.508,200.647C635.833,200.583 657.572,199.978 662.581,201.071C664.825,201.56 664.892,201.843 680.228,223.706C684.629,229.865 684.615,229.796 689.079,235.878C693.079,241.855 693.149,241.734 697.343,247.61C697.681,248.077 699.935,251.196 701.564,253.45C705.699,259.593 705.744,259.509 717.236,275.707C720.949,281.166 721.111,281.039 721.398,281.535C723,284.304 719.505,281.423 681.489,284.106C672.885,284.813 672.973,284.669 664.475,286.178C655.301,287.269 655.397,287.233 646.425,289.107C636.377,291.244 636.43,291.177 632.443,292.158C621.819,295.059 621.892,295.061 611.435,298.338C608.767,299.341 606.099,300.344 603.432,301.347C594.248,305.132 594.294,305.166 593.496,305.49C584.629,309.508 582.078,310.961 579.403,312.292C573.289,315.656 573.461,315.801 567.249,319.139C566.859,319.389 564.262,321.056 562.337,322.203C551.902,329.175 551.972,329.162 542.157,337.055C524.215,351.485 526.596,357.087 511.5,357.502C500.027,357.818 501.754,353.293 480.886,336.082C475.173,331.516 475.429,331.295 461.69,322.145C460.059,321.129 458.428,320.112 456.797,319.096C455.136,318.182 445.619,312.752 444.648,312.198C439.949,309.583 429.8,305.097 428.492,304.518C423.029,302.402 423.062,302.42 422.592,302.232C421.488,301.792 421.634,301.715 420.588,301.298C416.147,299.52 416.207,299.604 411.671,298.021C401.17,294.621 393.184,292.553 391.561,292.133C383.586,290.182 378.709,289.282 377.584,289.074C368.056,287.201 368.136,287.246 358.525,286.054C347.53,284.157 347.577,284.535 336.489,283.703C308.272,281.584 300.617,284.803 303.665,280.598C305.58,277.956 307.486,275.208 307.813,274.736C323.654,252.783 323.471,252.687 324.856,250.787C325.646,249.655 330.297,242.99 334.846,236.719C338.415,231.787 338.345,231.818 341.942,226.877C344.915,222.696 344.866,222.775 347.804,218.669C353.007,211.316 358.964,203.266 359.948,201.936C362.962,200.399 363.105,201.083 367.51,200.809C383.681,200.312 383.577,200.161 397.485,200.813L401.479,200.978C407.434,201.403 422.878,202.031 443.416,208.877C450.926,211.757 450.923,211.599 458.327,214.857C462.921,217.168 462.919,217.05 467.435,219.623C471.465,222.212 471.406,222.144 475.325,224.749C479.171,227.247 484.664,233.023 487.282,236.65C487.413,236.906 489.795,241.55 487.573,240.23C483.521,237.824 483.819,237.483 479.771,235.096C478.715,234.486 477.66,233.876 476.604,233.267C470.252,229.818 470.233,230.055 463.653,227.156C454.318,223.042 454.284,223.426 444.565,220.146C427.811,215.336 427.756,215.86 410.589,213.07C393.532,211.328 387.164,211.472 380.5,211.291L379.499,211.293C375.146,211.41 367.157,211.27 365.682,212.691C364.726,213.612 360.689,219.71 360.276,220.335C357.702,224.167 357.681,224.134 357.46,224.468C354.588,228.927 350.815,234.486 350.228,235.351C345.186,242.912 345.162,242.783 340.166,250.263C327.161,269.332 327.17,269.249 327.148,269.427C326.896,271.533 333.91,270.926 339.509,270.931C342.401,271.041 361.377,271.765 375.465,274.895C382.552,276.218 382.469,276.133 389.401,277.88C399.979,280.674 399.884,280.661 410.426,283.794C426.327,289.224 426.16,289.481 441.402,296.686C449.197,300.889 469.158,310.508 495.007,335.987C495.492,336.502 495.978,337.017 496.463,337.532C503.339,344.239 503.334,345.106 504.411,344.386C504.794,344.129 505.027,338.049 505.048,337.496C505.12,336.007 505.655,322.788 505.707,321.509C505.799,311.487 505.822,311.554 505.8,301.49L505.768,296.5C505.264,278.41 505.223,278.517 504.009,260.538L503.883,259.474C503.009,246.45 502.903,246.516 502.826,233.489C502.824,231.161 502.822,228.834 502.82,226.506C502.809,223.421 502.798,223.5 502.789,220.493C502.578,218.16 502.972,210.221 497.183,197.651C492.339,187.132 473.576,172.585 462.471,167.704C454.084,164.018 466.684,172.556 467.146,172.869C473.905,177.449 491.52,193.917 493.692,203.594C488.458,204.824 484.169,203.633 478.645,203.017C472.466,201.441 472.487,201.57 466.594,199.266C465.288,198.592 463.982,197.919 462.676,197.245C448.08,188.645 441.37,172.856 437.698,164.407C436.946,162.499 432.905,153.651 433.413,151.448C433.745,150.007 447.271,150.723 448.476,150.787C466.925,152.667 469.933,155.411 475.399,157.678C483.736,162.419 483.796,163.045 489.186,168.768L492.031,172.765C496.284,179.405 495.965,179.506 499.269,186.602C502.592,194.837 502.045,195.533 503.468,195.671C504.62,195.782 504.969,194.469 505.011,194.31C508.568,180.943 508.049,180.903 511.81,167.581C513.85,160.604 516.459,151.932 516.868,150.572C518.687,144.481 518.457,144.481 520.987,138.719C527.517,126.287 527.509,126.28 530.867,112.614Z"/>
+    <path d="M325.188,233.231C323.235,235.987 323.252,235.973 323.079,236.208C322.637,236.807 322.603,236.697 322.184,237.265C317.518,243.698 317.625,243.654 313.014,250.119C308.441,256.467 308.433,256.376 305.586,260.556C302.199,264.953 289.129,283.921 288.154,285.282C285.076,289.822 285.043,289.725 282.01,294.249C279.664,297.748 284.402,297.025 284.519,297.046C304.71,297.478 304.563,298.124 324.567,300.054C334.957,301.117 334.81,301.445 346.558,303.036C356.684,304.733 356.593,304.702 357.464,304.858C374.334,307.291 383.8,309.924 393.597,312.108C394.709,312.379 401.294,313.984 407.439,315.738C425.076,320.876 425.118,320.491 442.41,326.837C450.006,329.792 449.885,329.803 457.396,332.74C464.392,335.822 464.332,335.777 471.314,338.917C475.028,340.703 475.006,340.688 475.325,340.846C480.702,343.506 478.376,345.506 484.265,354.651C493.146,364.884 501.855,366.152 515.496,366.062C522.323,364.944 522.586,365.999 531.664,361.778C534.956,359.719 535.548,360.418 539.834,354.798C543.433,349.51 542.99,349.381 545.491,343.495C545.997,342.302 546.215,342.626 547.644,341.726C550.644,340.196 550.519,340.204 553.568,338.633C559.308,336.097 565.583,333.273 566.626,332.803C567.587,332.407 573.668,329.901 578.696,327.99C595.535,321.566 609.438,317.814 615.64,315.925C620.873,314.759 621.691,314.207 631.556,311.799C654.95,306.611 654.869,306.599 678.552,302.881C689.647,301.392 689.539,301.259 700.579,299.937C705.664,299.541 705.549,299.52 710.551,298.98C729.998,296.819 739.368,297.29 742.321,297.016C742.717,296.98 743.614,296.584 740.771,292.297C740.166,291.371 736.094,285.144 733.071,280.81C725.604,270.109 725.563,270.182 724.923,269.249C718.493,259.931 718.472,259.967 717.922,259.152C717.498,258.562 717.075,257.972 716.651,257.382C693.314,223.307 691.794,224.438 689.987,221.339C688.992,219.634 699.267,220.53 701.491,220.651C701.925,220.674 703.007,219.663 714.014,234.825C714.462,235.422 714.909,236.02 715.357,236.617C716.3,237.824 723.022,246.428 727.013,251.804C727.511,252.44 731.007,256.905 733.172,259.815C736.13,263.909 739.822,268.782 740.409,269.556C746.038,276.933 746.025,276.821 748.139,279.803C750.698,283.266 750.784,283.062 753.266,286.632C758.465,293.263 765.066,302.37 766.07,303.755C766.212,303.943 770.621,309.947 770.907,310.276C773.58,313.356 765.527,312.718 757.481,313.001L751.483,313.151C738.405,313.933 738.479,313.692 725.456,315.049C706.107,316.599 699.669,317.731 697.449,318.121C687.372,319.481 687.449,319.345 677.438,321.035C671.352,321.906 671.445,321.948 665.466,323.065C663.776,323.354 657.362,324.453 644.431,327.126C637.891,328.52 638.01,328.69 631.45,330.048C628.631,330.811 604.773,337.268 596.345,340.044C588.819,342.516 588.891,342.518 581.405,345.109C579.724,345.758 568.679,350.02 560.618,353.762C555.313,356.224 558.646,359.247 549.194,369.212L547.177,371.016C537.589,377.883 533.2,378.761 527.421,380.13L522.431,381.037C509.465,382.325 509.447,382.214 496.551,380.131C494.39,379.598 491.654,379.519 481.69,374.233C477.6,371.331 477.435,371.629 473.843,368.159C472.155,366.034 470.372,364.954 466.786,357.37C464.104,352.781 463.364,353.589 458.528,351.437C455.833,350.311 455.85,350.32 455.618,350.221C454.508,349.749 454.622,349.728 453.6,349.293C443.515,345.356 443.575,345.422 433.373,341.875C426.898,339.714 426.998,339.738 420.471,337.601C413.89,335.826 413.985,335.859 407.378,333.953C405.47,333.431 395.136,330.606 383.403,327.902C377.429,326.687 377.51,326.595 371.532,325.381C362.99,323.744 363.027,323.864 354.556,322.164C347.997,321.145 348.063,321.138 341.57,320.098C328.954,318.368 326.143,317.391 301.516,315.212C295.425,314.675 295.532,314.681 289.462,313.997C282.491,313.712 272.011,313.236 270.494,313.167C262.48,312.86 262.545,312.862 254.474,312.686C252.785,312.286 251.92,312.158 252.881,310.701C253.106,310.36 255.676,307.149 255.922,306.842C257.023,305.387 264.887,294.993 269.603,288.584C275.876,279.366 276.252,279.748 282.844,270.809C284.782,268.376 291.085,259.944 291.986,258.805C293.922,256.202 305.293,240.921 316.573,226.556C322.3,219.264 323.329,220.137 332.556,220.127C336.69,220.122 332.936,222.398 325.188,233.231Z"/>
+    <path d="M488.947,79.598C491.758,69.257 491.718,69.266 492.315,67.4C493.713,63.03 509.902,78.581 511.207,79.835L514.048,82.825C521.561,91.193 523.82,99.896 524.249,101.547C524.745,104.374 526.193,109.262 525.009,118.445C524.829,119.836 523.672,128.813 520.165,135.293C519.867,135.845 518.924,135.823 518.625,136.375C518.405,135.099 516.338,123.127 515.756,120.45C514.084,112.76 507.066,93.888 504.941,94.985C503.593,95.682 514.51,116.437 511.298,137.424C510.716,141.226 500.642,131.314 499.606,130.387C492.767,123.073 491.635,121.493 488.789,113.402C487.183,107.008 487.278,107.045 486.798,100.502C486.9,89.857 486.759,89.916 488.947,79.598Z"/>
+    <path d="M564.501,132.521C583.855,133.628 590.776,138.185 590.064,139.282C589.196,140.619 583.065,147.72 582.442,148.442C581.301,149.669 580.16,150.896 579.018,152.122C566.378,164.188 564.071,163.887 560.269,166.013C553.911,167.651 553.973,167.698 547.499,168.404C538.905,167.932 539.026,167.702 530.592,166.162C529.472,164.861 528.375,164.759 529.616,163.579C538.565,155.067 556.712,148.084 559.243,147.11C559.408,147.046 567.084,142.956 559.478,144.914C528.725,152.832 528.917,160.586 525.666,160.017C522.778,159.512 537.222,134.996 556.554,132.929C557.186,132.861 557.142,132.899 564.501,132.521Z"/>
+  </g>
+</symbol></svg>
+
+<div class="shell collapsed">
+<button id="sbOpen" aria-label="Abrir menu"><span class="ham"><i></i><i></i><i></i></span> Menu</button>
+<!-- ============ SIDEBAR ============ -->
+<aside id="sidebar">
+  <div class="brandrow">
+    <div>
+      <div class="brand">Economia<br><b>Comportamental</b></div>
+      <div class="brand-sub">Guia de Estudo · Frequência</div>
+    </div>
+    <button id="sbToggle" aria-label="Recolher menu" title="Recolher menu">⟨⟨</button>
+  </div>
+  <nav class="nav" id="nav">
+    <a href="#map">▦ Mapa do curso</a>
+    <div class="grp"><span class="dot" style="background:var(--p1)"></span>Parte 1</div>
+    <a href="#p1">1 · Os postulados convencionais</a>
+    <div class="grp"><span class="dot" style="background:var(--p2)"></span>Parte 2 · Racionalidade limitada</div>
+    <a href="#p2">2 · Limites computacionais</a>
+    <a href="#p21" class="sub">2.1 Consumo e investimento</a>
+    <a href="#p22" class="sub">2.2 Poupança</a>
+    <a href="#p23" class="sub">2.3 Mercados financeiros</a>
+    <div class="grp"><span class="dot" style="background:var(--p3)"></span>Parte 3 · Preferências sociais</div>
+    <a href="#p31" class="sub">3.1 Falhas de mercado e dilemas</a>
+    <a href="#p32" class="sub">3.2 Preferências e normas sociais</a>
+    <a href="#p33" class="sub">3.3 Contratos incompletos</a>
+    <div class="grp"><span class="dot" style="background:var(--p4)"></span>Parte 4 · Instituições e políticas</div>
+    <a href="#p41" class="sub">4.1 O papel das instituições</a>
+    <a href="#p42" class="sub">4.2 Incentivos vs normas</a>
+    <a href="#p43" class="sub">4.3 Paternalismo vs liberdade</a>
+    <div class="grp"><span class="dot" style="background:var(--p5)"></span>Parte 5</div>
+    <a href="#p5">5 · Desenvolvimentos recentes</a>
+    <div class="grp">▎Avaliação</div>
+    <a href="#freq">✶ Frequência 2023-24 (resolvida)</a>
+    <a href="#exame">✶ Exame 1ª Época 2023-24 (resolvido)</a>
+    <a href="#glossario">⌕ Glossário</a>
+  </nav>
+  <div class="sb-credit">
+    <svg viewBox="0 0 140 112"><use href="#logo-humildade"/></svg>
+    <span><b>H.U.M.I.L.D.A.D.E</b><small>responsável pelo site</small></span>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main>
+<div class="wrap">
+
+<!-- ===== HOME PAGE ===== -->
+<section class="page home active" id="home">
+<div class="hero" id="top">
+  <div class="kicker r">Licenciatura em Economia · ISCTE</div>
+  <h1 class="r">A economia <span class="g">como ela realmente</span> se comporta.</h1>
+  <p class="lead r">Resumo de toda a matéria a partir dos slides, organizado pelos 5 temas do programa. Conceitos, esquemas e exemplos pensados para fixar — e a frequência de 2023-24 resolvida e comentada no fim.</p>
+  <div class="meta r">
+    <span class="chip">5 partes</span>
+    <span class="chip">12 aulas</span>
+    <span class="chip">★ frequência resolvida</span>
+    <span class="chip">⌕ glossário pesquisável</span>
+  </div>
+</div><!-- /hero -->
+
+<!-- ===== MASTER MAP (dentro da home) ===== -->
+<div id="map" class="mapblock">
+  <div class="part-head"><span class="part-num" style="color:var(--p2)">▦</span><h2>O mapa do curso</h2></div>
+  <div class="accent-bar" style="background:var(--p2); box-shadow:0 0 16px rgba(34,211,238,.25)"></div>
+  <p class="muted r">Toda a cadeira gira à volta da <strong>crítica a dois postulados</strong> da teoria económica convencional — a <em class="t">racionalidade</em> e o <em class="t">interesse próprio</em>. Partindo de comportamentos "anómalos", constroem-se modelos alternativos. Esta tabela (Aula 2) é o esqueleto de tudo o resto: lê-se da teoria → à evidência → às implicações de política.</p>
+  <div class="tbl-wrap r">
+    <table>
+      <thead><tr><th>Teoria convencional diz…</th><th>…mas a evidência mostra</th><th>→ Implicações</th></tr></thead>
+      <tbody>
+        <tr><td><b>Comportamento otimizador</b><br>(maximiza utilidade)</td><td>Racionalidade limitada; preferências hiperbólicas; <em>weakness of will</em>; emoções</td><td>Políticas que ajudam o indivíduo a ser racional <span class="muted">(Parte 2)</span></td></tr>
+        <tr><td><b>Egoísmo</b><br>(só interesse próprio)</td><td>Normas de equidade, reciprocidade e altruísmo; contratos incompletos</td><td>Políticas que contam com a adesão a normas <span class="muted">(Parte 3)</span></td></tr>
+        <tr><td><b>Reage a incentivos monetários</b><br>(comportamento previsível)</td><td>Motivações intrínsecas e identidade</td><td>Ineficácia (e efeitos perversos) dos incentivos <span class="muted">(Parte 4.2)</span></td></tr>
+        <tr><td><b>Falhas de mercado</b><br>→ Estado ou privatizar</td><td>Disposição voluntária a cooperar</td><td>Instituições que favorecem a cooperação <span class="muted">(Partes 3-4)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout r"><div class="lbl">O que é a Economia Comportamental?</div>“Dotar a análise económica de <strong>pressupostos mais realistas sobre a ação humana</strong>.” Em vez de exportar o modelo económico para outras áreas, importa contributos da psicologia e das outras ciências sociais <span class="muted">(Frey &amp; Benz, 2002).</span></div>
+  </div><!-- /mapblock -->
+
+  <div class="start-wrap r">
+    <button class="start-btn" data-goto="p1">▶ Começar a estudar</button>
+    <span class="start-hint">salta direto para a Parte 1</span>
+  </div>
+  <div class="scroll-cue r">↓ ou escolhe por onde ir ↓</div>
+
+  <div class="home-cards">
+    <div class="hcard r" data-goto="p1" style="--hc:var(--p1)"><div class="hc-num">1</div><h3>Os postulados convencionais</h3><p>Racionalidade e interesse próprio — o modelo que tudo o resto vai criticar.</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="p2" style="--hc:var(--p2)"><div class="hc-num">2</div><h3>Racionalidade limitada</h3><p>Anomalias na decisão, poupança e mercados financeiros.</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="p3" style="--hc:var(--p3)"><div class="hc-num">3</div><h3>Preferências sociais</h3><p>Dilemas, normas, reciprocidade e contratos de trabalho.</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="p4" style="--hc:var(--p4)"><div class="hc-num">4</div><h3>Instituições e políticas</h3><p>Incentivos vs normas, paternalismo e nudges.</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="p5" style="--hc:var(--p5)"><div class="hc-num">5</div><h3>Desenvolvimentos recentes</h3><p>Neuroeconomia e o balanço da disciplina.</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="freq" style="--hc:var(--p2)"><div class="hc-num">✶</div><h3>Frequência 2023-24</h3><p>A prova resolvida e comentada, passo a passo.</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="exame" style="--hc:var(--p5)"><div class="hc-num">✶</div><h3>Exame 1ª Época 2023-24</h3><p>O exame resolvido (mesmas perguntas, formato de exame).</p><span class="hc-go">Abrir →</span></div>
+    <div class="hcard r" data-goto="glossario" style="--hc:var(--p3)"><div class="hc-num">⌕</div><h3>Glossário</h3><p>Os termos-chave, com definição e onde os rever.</p><span class="hc-go">Abrir →</span></div>
+  </div>
+</section>
+
+<!-- ===== PART 1 ===== -->
+<section id="p1" class="page part" style="--accent:var(--p1); --accent-glow:rgba(148,163,184,.16)">
+  <div class="part-head"><span class="part-num">1</span><h2>Os postulados comportamentais da teoria convencional</h2></div>
+  <div class="accent-bar"></div>
+  <p class="muted r">Antes de criticar, é preciso saber <strong>o que</strong> se critica. A teoria convencional assenta em dois postulados sobre o agente — e num cenário onde eles funcionam.</p>
+
+  <div class="authors r"><span class="atag"><b>Aula 2</b></span><span class="atag">Hirschman 1985</span><span class="atag">Frey &amp; Benz 2002</span></div>
+
+  <h4 class="mini r">① Racionalidade — assenta em 3 pilares</h4>
+  <div class="grid">
+    <div class="card r"><div class="term"><span class="ic">◆</span>Conhecimento completo</div><div class="def">Informação <b>perfeita</b> sobre todo o contexto de escolha.</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Preferências estáveis</div><div class="def">Sistema de preferências <b>consistente e estável</b> — é um dado, não se questiona.</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Capacidade de cálculo</div><div class="def">Determina, no conjunto de alternativas, a que <b>maximiza</b> as preferências — <em>racionalidade instrumental</em>.</div></div>
+  </div>
+  <p class="r">Operacionalmente, o agente: escolhe de um <strong>conjunto fixo de alternativas</strong> → estabelece os <strong>resultados esperados</strong> de cada uma → atribui-lhes um <strong>valor/utilidade</strong> (função pay-off) → escolhe a que <strong>maximiza a utilidade</strong>.</p>
+
+  <h4 class="mini r">② Interesse próprio</h4>
+  <div class="grid">
+    <div class="card r"><div class="term"><span class="ic">◆</span>Egoísmo</div><div class="def">A maximização do prazer. Mas o agente <b>não é necessariamente egoísta</b>…</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Mensurável pelo preço</div><div class="def">…o que importa é que as motivações relevantes para a economia têm intensidade <b>medível através do preço</b>.</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Sem conteúdo motivacional</div><div class="def">O interesse próprio = as preferências do agente, sejam elas quais forem.</div></div>
+  </div>
+
+  <h4 class="mini r">③ Os domínios da escolha racional</h4>
+  <p class="r">O modelo funciona bem num cenário específico: <strong>relações anónimas</strong> em <strong>concorrência perfeita</strong>, onde o <strong>sistema de preços</strong> permite ignorar as consequências sociais das escolhas, com <strong>informação simétrica e contratos completos</strong>. É exatamente este cenário que as Partes 2-4 vão desmontar.</p>
+
+  <div class="quote r">O <em>approach</em> do "ator racional" deu origem a contributos importantes, mas a sua expansão também revelou algumas das suas fraquezas intrínsecas.<cite>Hirschman, 1985, p.7</cite></div>
+
+  <details class="more r"><summary><span class="plus">+</span> Saber mais — texto de apoio</summary>
+    <div class="more-body"><span class="src">Texto 1 · Frey &amp; Benz (2002), "From Imperialism to Inspiration"</span><br>Defende que a economia deve deixar de "exportar" o homo economicus para outras ciências e passar a "importar" delas — sobretudo da psicologia — pressupostos mais realistas. É o texto-base desta introdução.</div>
+  </details>
+
+  <div class="tldr r"><h4><span class="spark">✦</span> Super-compilação · Parte 1</h4>
+    <ul>
+      <li>A teoria convencional define o agente por <b>2 postulados</b>: <b>racionalidade</b> (informação completa + preferências estáveis + maximização) e <b>interesse próprio</b> (mensurável pelo preço).</li>
+      <li>Só é válida num <b>domínio</b> ideal: concorrência perfeita, relações anónimas, informação simétrica, contratos completos.</li>
+      <li>A Economia Comportamental quer <b>pressupostos mais realistas</b>: ataca a racionalidade (Parte 2) e o interesse próprio (Partes 3-4).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== PART 2 ===== -->
+<section id="p2" class="page part" style="--accent:var(--p2); --accent-glow:rgba(34,211,238,.18)">
+  <div class="part-head"><span class="part-num">2</span><h2>Racionalidade limitada — os limites computacionais</h2></div>
+  <div class="accent-bar"></div>
+  <p class="muted r">Primeiro ataque: e se o agente <strong>não consegue</strong> calcular a solução ótima? Simon substitui a racionalidade global por uma racionalidade que reconhece os limites de informação e de cálculo dos indivíduos reais.</p>
+  <div class="authors r"><span class="atag"><b>Aula 3</b></span><span class="atag">Simon 1955</span><span class="atag">Gigerenzer 2021</span></div>
+
+  <div class="grid">
+    <div class="card r"><div class="term"><span class="ic">◆</span>Racionalidade limitada</div><div class="def"><b>Bounded rationality</b> (Simon): comportamento racional que leva em conta as limitações de <b>informação</b> e de <b>capacidade de cálculo</b> dos indivíduos em contextos reais.</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Satisficing</div><div class="def">Procurar uma alternativa <b>"suficientemente boa"</b> em vez da ótima. Para-se assim que se encontra uma que atinge o <b>nível de aspiração k</b>.</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Nível de aspiração (k)</div><div class="def">Limiar de satisfação. É <b>dinâmico</b>: sobe ou desce conforme a dificuldade da procura, garantindo sempre uma solução.</div></div>
+    <div class="card r"><div class="term"><span class="ic">◆</span>Heurística iterativa</div><div class="def">Regra de procura → regra de paragem → regra de decisão. Não otimiza: <b>procura e para</b>.</div></div>
+  </div>
+
+  <div class="callout key r"><div class="lbl">O que o decisor pode desconhecer (vs modelo clássico)</div>Parte das <b>alternativas</b> (A), parte dos <b>resultados</b> (S), a <b>correspondência</b> entre ambos, e a própria função de valor V(s) pode <b>não ser consistente</b> (nem completa nem transitiva). O clássico maximiza Σ V(s)·P(s); o limitado <em>satisfaz</em>.</div>
+
+  <h4 class="mini r">Racionalidade ecológica — Gigerenzer (2021)</h4>
+  <p class="r"><strong>"Menos pode ser mais"</strong>: a mesma precisão com menos esforço. A racionalidade axiomática só é normativa em <em class="t">"mundos pequenos"</em> (estáveis, bem definidos). Em contextos de incerteza, heurísticas simples (<em>take-the-best</em>, lexicográfica) que dispensam procura exaustiva podem prever <strong>melhor</strong> — é o dilema <em>enviesamento-variância</em>: um viés moderado com baixa variância bate o viés-zero com variância alta.</p>
+
+  <div class="callout r"><div class="lbl">As 3 condições da dificuldade da escolha</div><b>Multiplicidade</b> (muitas dimensões de valor) + <b>incomensurabilidade</b> (não há denominador comum) + <b>conflitualidade</b>. Surge um tipo novo de relação: a <b>incomparabilidade</b> (a I b) — que não existe na escolha "racional".</div>
+
+  <!-- ===== 2.1 ===== -->
+  <h3 class="sub-head r" id="p21">Consumo e investimento <span class="tag">2.1 · anomalias na decisão</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 4-5</b></span><span class="atag">Kahneman &amp; Tversky</span><span class="atag">Slovic 2003</span></div>
+  <p class="muted r">Uma <strong>"anomalia"</strong> é uma regularidade de comportamento que a teoria convencional <strong>não explica</strong>. Dão origem a modelos de <em>como</em> os indivíduos se comportam (e não de como <em>deviam</em>).</p>
+
+  <h4 class="mini r">Heurísticas — atalhos mentais (mental shortcuts)</h4>
+  <div class="grid">
+    <div class="card r"><div class="term">Disponibilidade</div><div class="def">Decide-se com a informação mais <b>fácil de lembrar</b> (vívida, recente, saliente) — não a mais frequente/relevante. → más escolhas.</div></div>
+    <div class="card r"><div class="term">Representatividade</div><div class="def">Sobrevaloriza traços <b>típicos de uma categoria</b> e ignora a <b>frequência de base</b>. (ex.: "a Carla" anti-globalização.)</div></div>
+    <div class="card r"><div class="term">Ancoragem</div><div class="def">Parte de um ponto inicial (<b>âncora</b>) e ajusta — mas o ajuste é insuficiente, e a âncora pode ser irrelevante.</div></div>
+    <div class="card r"><div class="term">Heurística afetiva</div><div class="def">Slovic: julga-se pelo que se <b>sente</b>. Se gosto → risco baixo / benefício alto. O afeto <b>precede</b> o juízo.</div></div>
+  </div>
+
+  <h4 class="mini r">Prospect Theory (Kahneman &amp; Tversky)</h4>
+  <p class="r">A grande viragem: os resultados avaliam-se como <strong>ganhos ou perdas face a um ponto de referência</strong> — não pela riqueza total. E as <strong>perdas pesam mais</strong> que ganhos equivalentes (<em class="t">loss aversion</em>).</p>
+
+  <div class="diagram r">
+    <svg viewBox="0 0 460 300" role="img" aria-label="Função valor de Kahneman e Tversky">
+      <defs>
+        <linearGradient id="gGain" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+      </defs>
+      <!-- axes -->
+      <line x1="30" y1="150" x2="430" y2="150" stroke="#333a4d" stroke-width="1.5"/>
+      <line x1="230" y1="20" x2="230" y2="285" stroke="#333a4d" stroke-width="1.5"/>
+      <text x="420" y="142" fill="#7e879e" font-size="12" font-family="monospace" text-anchor="end">Ganhos</text>
+      <text x="40" y="142" fill="#7e879e" font-size="12" font-family="monospace">Perdas</text>
+      <text x="238" y="32" fill="#7e879e" font-size="11" font-family="monospace">Valor</text>
+      <!-- S curve: gains concave, losses convex & steeper -->
+      <path d="M40,250 C150,205 195,180 230,150 C275,110 330,80 430,68" fill="none" stroke="url(#gGain)" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- reference markers -->
+      <circle cx="230" cy="150" r="4.5" fill="#fff"/>
+      <text x="236" y="168" fill="#aeb4c6" font-size="11" font-family="monospace">ref.</text>
+      <!-- annotations -->
+      <text x="330" y="60" fill="#22d3ee" font-size="12.5" font-family="monospace">aversão ao risco</text>
+      <text x="60" y="275" fill="#fb7185" font-size="12.5" font-family="monospace">propensão ao risco</text>
+      <!-- dashed steepness hint -->
+      <line x1="160" y1="150" x2="160" y2="227" stroke="#fb7185" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>
+      <line x1="300" y1="150" x2="300" y2="96" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>
+    </svg>
+    <div class="d-cap">Função-valor: côncava nos ganhos, convexa e <b>mais inclinada</b> nas perdas</div>
+  </div>
+
+  <div class="grid">
+    <div class="card r"><div class="term">Efeito certeza</div><div class="def">Sobrevaloriza-se o <b>resultado certo</b> → aversão ao risco nos ganhos.</div></div>
+    <div class="card r"><div class="term">Efeito de reflexão</div><div class="def">Nas perdas inverte-se: sobrevaloriza-se a <b>perda certa</b> → <b>propensão ao risco</b>.</div></div>
+    <div class="card r"><div class="term">Contabilidade mental</div><div class="def"><b>Mental accounting</b>: o mesmo valor é tratado de forma diferente conforme a "conta" (bilhete perdido vs dinheiro perdido).</div></div>
+    <div class="card r"><div class="term">Efeito dotação</div><div class="def"><b>Endowment effect</b>: exige-se mais para <b>vender</b> algo que se possui do que se pagaria para o comprar (rácio ≈ 2:1).</div></div>
+  </div>
+
+  <div class="callout warn r"><div class="lbl">⚠ Anomalia · Framing (enquadramento)</div>A <b>forma</b> como o problema é apresentado muda a escolha. O clássico "doença rara" (600 pessoas): descrita em <b>vidas salvas</b> → escolhem a opção certa (efeito certeza); a <b>mesma</b> situação em <b>vidas perdidas</b> → arriscam (efeito reflexão). No modelo racional, a apresentação seria irrelevante.</div>
+
+  <div class="callout ex r"><div class="lbl">Implicações do framing (regras de Thaler)</div><b>Segregar ganhos</b> (dois ganhos separados &gt; somados) · <b>combinar perdas</b> (juntar dói menos) · <b>compensar</b> pequena perda com ganho maior · <b>segregar</b> pequeno ganho de perda maior (devolver dinheiro dói menos que baixar o preço).</div>
+
+  <p class="r"><strong>Custos de oportunidade</strong> vistos como ganho a que se abdica (não perda) e <strong>custos afundados</strong> (<em>sunk costs</em>) tratados como perda — quando o modelo racional manda <strong>ignorá-los</strong>.</p>
+
+  <details class="more r"><summary><span class="plus">+</span> Saber mais — textos &amp; recurso</summary>
+    <div class="more-body"><span class="src">Textos 4-9 · Kahneman, Schwartz, Slovic, Gigerenzer, Kamleitner</span><br><b>Schwartz, "Paradox of Choice"</b>: mais opções → mais esforço, erro e arrependimento. <b>Recurso "When more is less"</b> (Moreira Costa et al.): a literacia financeira pode <em>amplificar</em> o framing e a loss aversion. Liga ao crédito (Texto 9).</div>
+  </details>
+
+  <!-- ===== 2.2 ===== -->
+  <h3 class="sub-head r" id="p22">Poupança <span class="tag">2.2 · preferências hiperbólicas</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 6-7</b></span><span class="atag">Loewenstein &amp; Thaler</span></div>
+  <p class="muted r">A <strong>escolha intertemporal</strong> distribui custos e benefícios no tempo (poupar, estudar, fumar). O modelo de referência é a <strong>utilidade descontada</strong>.</p>
+
+  <div class="callout key r"><div class="lbl">Modelo da utilidade descontada</div>U<sup>t</sup> = Σ <b>D(k)</b>·u(c<sub>t+k</sub>), com <b>D(k) = 1/(1+δ)<sup>k</sup></b> e <b>δ</b> = taxa de desconto <b>constante</b>. δ alta = forte preferência pelo presente. <span class="muted">Liga-se ao ciclo de vida e ao rendimento permanente.</span></div>
+
+  <p class="r">A anomalia central: a taxa de desconto <strong>não é constante</strong> — <strong>decresce com o horizonte temporal</strong>. Isto gera <strong>preferências inconsistentes no tempo</strong> = <em class="t">descontos hiperbólicos</em>. As curvas de preferência <strong>cruzam-se</strong>: preferimos a recompensa grande e distante… até que a pequena fica perto — e invertemos.</p>
+
+  <div class="diagram r">
+    <svg viewBox="0 0 460 280" role="img" aria-label="Descontos hiperbólicos - curvas que se cruzam">
+      <line x1="30" y1="240" x2="440" y2="240" stroke="#333a4d" stroke-width="1.5"/>
+      <line x1="30" y1="20" x2="30" y2="240" stroke="#333a4d" stroke-width="1.5"/>
+      <text x="435" y="258" fill="#7e879e" font-size="11" font-family="monospace" text-anchor="end">Tempo →</text>
+      <text x="20" y="30" fill="#7e879e" font-size="11" font-family="monospace" transform="rotate(-90 20,30)" text-anchor="end">Valor presente</text>
+      <!-- small reward (closer) -->
+      <path d="M70,235 C150,232 190,210 215,120 L215,90" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+      <text x="200" y="80" fill="#34d399" font-size="12" font-family="monospace" text-anchor="middle">P (pequena/cedo)</text>
+      <!-- large reward (later) -->
+      <path d="M70,238 C200,236 290,205 330,70 L330,45" fill="none" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+      <text x="360" y="55" fill="#fbbf24" font-size="12" font-family="monospace">G (grande/tarde)</text>
+      <!-- crossing point -->
+      <circle cx="206" cy="150" r="5" fill="#fff"/>
+      <line x1="206" y1="150" x2="206" y2="240" stroke="#fff" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>
+      <text x="206" y="256" fill="#e7e9f0" font-size="11" font-family="monospace" text-anchor="middle">t*</text>
+      <text x="120" y="200" fill="#aeb4c6" font-size="10.5" font-family="monospace">antes de t*: prefere G</text>
+      <text x="250" y="135" fill="#aeb4c6" font-size="10.5" font-family="monospace">depois: inverte → P</text>
+    </svg>
+    <div class="d-cap">Inversão de preferência: a marca da inconsistência temporal</div>
+  </div>
+
+  <div class="grid">
+    <div class="card r"><div class="term">Efeito magnitude</div><div class="def">Descontam-se mais os <b>pequenos</b> montantes: a preferência pelo presente diminui com a magnitude.</div></div>
+    <div class="card r"><div class="term">Efeito sinal</div><div class="def">Descontam-se mais os <b>ganhos</b> que as perdas → <b>"debt aversion"</b> (queremos pagar já, receber já).</div></div>
+    <div class="card r"><div class="term">Weakness of will</div><div class="def">Falta de auto-controlo: cede-se à <b>gratificação imediata</b> contra os objetivos de longo prazo.</div></div>
+    <div class="card r"><div class="term">Procrastinação</div><div class="def">Custos/benefícios presentes ganham saliência excessiva → adiar. O comportamento <b>não</b> revela as preferências verdadeiras.</div></div>
+  </div>
+
+  <div class="callout ex r"><div class="lbl">Estratégias de compromisso</div>Sabendo que vão "fraquejar", os indivíduos <b>amarram-se</b>: contas-poupança com penalização no levantamento, levar pouco dinheiro, comprar casa (riqueza ilíquida). → <em>Deve o Estado restringir a escolha?</em> (ponte para a Parte 4.3.)</div>
+
+  <details class="more r"><summary><span class="plus">+</span> Saber mais — frequência &amp; textos</summary>
+    <div class="more-body"><span class="src">Texto 12 (memo) · Cordeiro Santos, "Endividamento das Famílias"</span><br>⭐ <b>A Pergunta 1 da frequência de 2023-24 foi exatamente "defina preferências hiperbólicas + exemplo".</b> Vê a resolução na secção da Frequência.</div>
+  </details>
+
+  <!-- ===== 2.3 ===== -->
+  <h3 class="sub-head r" id="p23">Mercados financeiros <span class="tag">2.3 · comportamento irracional</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 8-9</b></span><span class="atag">Keynes 1936</span><span class="atag">Shiller</span><span class="atag">Friedman 1953</span></div>
+
+  <div class="callout r"><div class="lbl">A tese convencional: "o mercado é racional"</div>A <b>competição</b> elimina os agentes irracionais e a <b>arbitragem</b> corrige os erros (via aprendizagem). Argumento <b>"como se"</b> (Friedman): os agentes comportam-se <em>como se</em> maximizassem — os pressupostos seriam irrelevantes, só contam as previsões.</div>
+
+  <h4 class="mini r">Porque a tese falha</h4>
+  <div class="grid">
+    <div class="card r"><div class="term">Arbitragem tem limites</div><div class="def">Os especuladores ganham mais a <b>acentuar</b> erros que a corrigi-los; nem sempre há contraparte; <b>noise trader risk</b>. (ex.: Royal Dutch/Shell.)</div></div>
+    <div class="card r"><div class="term">Aprendizagem tem limites</div><div class="def"><b>Lock-in</b> em equilíbrios sub-ótimos; o longo prazo está "longe demais" (Keynes); decisões <b>irrepetíveis</b> (poupança).</div></div>
+    <div class="card r"><div class="term">Seleção ≠ perfeição</div><div class="def">Argumento evolucionista: basta estar <b>melhor adaptado que os rivais</b> — o meio pode até selecionar "irracionalidade" (confiança, altruísmo).</div></div>
+  </div>
+
+  <div class="callout key r"><div class="lbl">Keynes — incerteza, liquidez, especulação</div><b>Incerteza</b>: o futuro é incalculável. → preferência por <b>liquidez</b> (ativos que se vendem depressa). → <b>especulação</b>: o ganho depende não do valor fundamental mas da <b>opinião média</b> sobre a opinião dos outros.</div>
+
+  <div class="quote r">Os profissionais [da bolsa] são como os participantes num concurso de beleza em que cada um deve escolher não os rostos que <em>ele</em> acha mais bonitos, mas os que pensa que <em>os outros</em> vão escolher.<cite>Keynes, 1936 · "concurso de beleza"</cite></div>
+
+  <div class="callout warn r"><div class="lbl">⚠ O paradoxo central</div>Os mercados são <b>irracionais porque os agentes são racionais</b>: agir pelo ganho especulativo de curto prazo, em incerteza irredutível e com liquidez, gera dinâmicas coletivas instáveis. Não é "burrice" — é racionalidade individual a produzir irracionalidade coletiva.</div>
+
+  <h4 class="mini r">Heurísticas do mercado → bolhas</h4>
+  <p class="r">3 crenças partilhadas: <strong>o presente é guia do futuro</strong> · <strong>os preços refletem avaliações corretas</strong> · <strong>a maioria tem razão</strong>. Levam a <em>comportamentos miméticos</em>, enfraquecem o espírito crítico e geram <strong>miopia face ao desastre</strong>. A <strong>bolha especulativa</strong> é uma <strong>amplificação por feedback</strong>: a subida muda expectativas → atrai mais especuladores → mais subida → autorrealização, até ao colapso. <span class="muted">(Shiller — preço vs valor presente dos dividendos, S&amp;P 1871-2000.)</span></p>
+
+  <div class="tldr r" style="--accent:var(--p2)"><h4><span class="spark">✦</span> Super-compilação · Parte 2</h4>
+    <ul>
+      <li><b>Simon</b>: a racionalidade é <b>limitada</b> → <b>satisficing</b> (procura uma opção "boa o suficiente" face a um nível de aspiração k). Gigerenzer: heurísticas simples podem prever melhor ("menos é mais").</li>
+      <li><b>2.1 Prospect Theory</b>: avalia-se em <b>ganhos/perdas face a uma referência</b>, com <b>aversão à perda</b>; framing, mental accounting, endowment e sunk costs violam o modelo racional.</li>
+      <li><b>2.2</b> A utilidade descontada falha: a taxa de desconto <b>decresce no tempo</b> → <b>preferências hiperbólicas</b>, inconsistência, procrastinação, estratégias de compromisso.</li>
+      <li><b>2.3</b> O mercado não é eficiente: limites à arbitragem/aprendizagem + <b>especulação à la Keynes</b> ("concurso de beleza") → <b>bolhas</b> por feedback. Irracional <em>porque</em> os agentes são racionais.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== PART 3 ===== -->
+<section id="p3" class="page part" style="--accent:var(--p3); --accent-glow:rgba(167,139,250,.18)">
+  <div class="part-head"><span class="part-num">3</span><h2>Preferências sociais e teoria económica</h2></div>
+  <div class="accent-bar"></div>
+  <p class="muted r">Segundo ataque: agora ao <strong>interesse próprio</strong>. Os indivíduos têm <em class="t">preferências sociais</em> — importam-se com os outros, com a equidade e com as normas. E isso muda tudo nos dilemas coletivos.</p>
+
+  <!-- 3.1 -->
+  <h3 class="sub-head r" id="p31">Falhas de mercado e dilemas sociais <span class="tag">3.1</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 10-11</b></span><span class="atag">Hardin 1968</span><span class="atag">Olson 1965</span><span class="atag">Ostrom</span><span class="atag">Wade</span></div>
+
+  <div class="quote r">Indivíduos racionais obtêm resultados coletivos <em>inferiores</em> aos que obteriam se não se comportassem como racionais.<cite>Amartya Sen, 1977 · "Rational Fools"</cite></div>
+
+  <div class="callout key r"><div class="lbl">Dilema social</div>Situação em que (a) atingir um objetivo comum depende da contribuição de muitos; mas (b) individualmente compensa usufruir dos benefícios <b>sem suportar os custos</b> → incentivo ao <b>free-riding</b>. Ex.: bens públicos, "tragédia dos comuns", cumprimento de normas.</div>
+
+  <h4 class="mini r">Dilema do prisioneiro</h4>
+  <p class="r">Cada um decide sem saber a escolha do outro. A <strong>estratégia dominante é não cooperar</strong> — e o resultado coletivo é pior para ambos (não-ótimo de Pareto).</p>
+  <div class="diagram r" style="padding:18px">
+    <table style="min-width:0;max-width:420px;margin:0 auto;text-align:center">
+      <thead><tr><th style="text-align:center">B \ A</th><th style="text-align:center">A: Silêncio</th><th style="text-align:center">A: Confessar</th></tr></thead>
+      <tbody>
+        <tr><td><b>B: Silêncio</b></td><td style="background:rgba(52,211,153,.1)"><b class="t-hl">2 , 2</b><br><span class="muted" style="font-size:11px">ótimo coletivo</span></td><td>9 , 1</td></tr>
+        <tr><td><b>B: Confessar</b></td><td>1 , 9</td><td style="background:rgba(251,113,133,.12)"><b style="color:var(--warn)">5 , 5</b><br><span class="muted" style="font-size:11px">equilíbrio (pior)</span></td></tr>
+      </tbody>
+    </table>
+    <div class="d-cap">Anos de prisão (B , A) · menos é melhor — racionais caem em (5,5)</div>
+  </div>
+
+  <div class="grid">
+    <div class="card r"><div class="term">Tragédia dos comuns</div><div class="def"><b>Hardin (1968)</b>: cada criador ganha o animal extra (benefício <b>privado</b>) mas a perda de pasto é <b>partilhada</b> → sobre-exploração. Saídas: <b>Estado</b> (coerção) ou <b>privatizar</b>.</div></div>
+    <div class="card r"><div class="term">Lógica da ação coletiva</div><div class="def"><b>Olson (1965)</b>: grupos grandes não cooperam voluntariamente (tese da contribuição zero); só com <b>incentivos seletivos</b>.</div></div>
+    <div class="card r"><div class="term">Jogo dos bens públicos</div><div class="def">Cada um reparte uma dotação entre si e um fundo comum (×fator). Previsão racional: <b>free-riding total</b>.</div></div>
+  </div>
+
+  <div class="callout ex r"><div class="lbl">Mas a evidência experimental contraria o modelo</div>Nos jogos de bens públicos as pessoas contribuem <b>40-60%</b> da dotação (one-shot); contribuições altas que <b>decrescem</b> com a repetição; punem os free-riders <b>mesmo com custo próprio</b>; e com <b>comunicação</b> ou <b>regras próprias</b> aproximam-se do ótimo. → <b>Cooperação condicional</b> + <b>reciprocidade</b>.</div>
+
+  <div class="tbl-wrap r"><table>
+    <thead><tr><th>✓ Favorece a ação coletiva (Ostrom/Wade)</th><th>✗ Ameaça a ação coletiva</th></tr></thead>
+    <tbody>
+      <tr><td>Recurso pequeno e bem delimitado; poucos utilizadores</td><td>Movimentos migratórios</td></tr>
+      <tr><td>Forte identidade de grupo; comunicação</td><td>Foco nas transações monetárias</td></tr>
+      <tr><td>Sanções e fácil deteção de violações</td><td>Dificuldade de transmitir regras entre gerações</td></tr>
+      <tr><td>Importância do recurso para a subsistência</td><td>Interferência do Estado no poder local</td></tr>
+    </tbody>
+  </table></div>
+  <div class="quote r">Enquanto os indivíduos forem vistos como prisioneiros, as políticas tratarão essa metáfora — em vez de reforçarem a capacidade das pessoas para mudarem as regras do jogo.<cite>Ostrom, p.91</cite></div>
+
+  <!-- 3.2 -->
+  <h3 class="sub-head r" id="p32">Preferências e normas sociais <span class="tag">3.2</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 12-13</b></span><span class="atag">Fehr &amp; Schmidt</span><span class="atag">McCabe 2003</span><span class="atag">Kahan</span></div>
+
+  <div class="grid">
+    <div class="card r"><div class="term">Jogo do ultimato</div><div class="def">P divide x€; R aceita ou rejeita (rejeitar = ninguém ganha). Racional: oferta mínima. <b>Real</b>: ofertas &gt;40%; ofertas &lt;25% são <b>rejeitadas</b>.</div></div>
+    <div class="card r"><div class="term">Reciprocidade</div><div class="def">Cooperação <b>condicional</b>: retribui-se o bem (positiva) e pune-se o mal (negativa). Distinta de altruísmo e de cálculo reputacional.</div></div>
+    <div class="card r"><div class="term">Altruísmo</div><div class="def">Prazer com o prazer do outro — <b>incondicional</b>. (≠ reciprocidade, que responde à ação do outro.)</div></div>
+    <div class="card r"><div class="term">Aversão à desigualdade</div><div class="def">Fehr &amp; Schmidt: desutilidade quando os payoffs são desiguais — <b>maior</b> quando se está em desvantagem (inveja &gt; culpa).</div></div>
+  </div>
+
+  <div class="callout key r"><div class="lbl">Função de aversão à desigualdade (Fehr &amp; Schmidt, 1999)</div><span style="font-family:var(--mono);font-size:13.5px;color:#fff">U<sub>i</sub> = π<sub>i</sub> − <span style="color:var(--warn)">α<sub>i</sub></span>·(desvantagem) − <span style="color:var(--p2)">β<sub>i</sub></span>·(vantagem)</span><br><span class="muted" style="font-size:13px">com α ≥ β ≥ 0 e β &lt; 1. <span style="color:var(--warn)">α</span> = desutilidade de <b>ganhar menos</b> que os outros (inveja); <span style="color:var(--p2)">β</span> = desutilidade de <b>ganhar mais</b> (culpa). α≥β: dói mais estar em desvantagem.</span></div>
+
+  <div class="callout ex r"><div class="lbl">As preferências são endógenas — e as intenções contam</div>Chamar ao mesmo jogo <b>"Exchange game"</b> em vez de <b>"Ultimatum game"</b> baixa ofertas e rejeições. No <b>trust game</b> de McCabe, cooperar voluntariamente gera mais reciprocidade do que quando não há alternativa: conta a <b>intenção</b> revelada, não só o resultado (<em>mentalizing</em>).</div>
+
+  <div class="tbl-wrap r"><table>
+    <thead><tr><th>Dimensão</th><th>Teoria neoclássica</th><th>Teoria da reciprocidade (Kahan)</th></tr></thead>
+    <tbody>
+      <tr><td>Agentes</td><td>Egoístas</td><td><b class="t-hl">Reciprocadores</b></td></tr>
+      <tr><td>Resultado coletivo</td><td>Equilíbrio único</td><td><b class="t-hl">Equilíbrios múltiplos</b></td></tr>
+      <tr><td>Promove cooperação</td><td>Incentivos</td><td><b class="t-hl">Confiança</b></td></tr>
+      <tr><td>Preferências</td><td>Homogéneas</td><td><b class="t-hl">Heterogéneas</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted r"><strong>Heterogeneidade importa:</strong> basta aumentar a fração de "homo economicus" para desencadear reciprocidade negativa dos outros — que se confunde com egoísmo e gera ainda mais não-cooperação. Sen: o <em class="t">commitment</em> é uma <em>counterpreferential choice</em>; Hirschman: temos <em>metapreferências</em> (preferências sobre as nossas preferências).</p>
+
+  <!-- 3.3 -->
+  <h3 class="sub-head r" id="p33">Contratos incompletos e o mercado de trabalho <span class="tag">3.3</span></h3>
+  <div class="authors r"><span class="atag"><b>Aula 14</b></span><span class="atag">Akerlof 1982</span><span class="atag">Fehr et al. 1998</span><span class="atag">Bewley</span></div>
+  <p class="muted r">Quase todas as transações têm <strong>contratos incompletos</strong> (impossível prever tudo, difícil verificar em tribunal). Onde o convencional vê só risco de oportunismo, a economia comportamental vê espaço para <strong>reciprocidade</strong> — ao ponto de os agentes <strong>preferirem</strong> contratos incompletos.</p>
+
+  <div class="callout key r"><div class="lbl">Gift exchange no trabalho (Akerlof, 1982)</div>A relação salarial é uma <b>troca de dádivas</b>: a empresa paga <b>acima</b> do mínimo de mercado, e o trabalhador retribui com <b>esforço acima</b> do mínimo. O salário sustenta uma <b>norma de reciprocidade</b>, não só um preço.</div>
+
+  <div class="callout ex r"><div class="lbl">Evidência — Fehr, Kirchler, Weichbold &amp; Gächter (1998)</div>Comparando mercados com contrato incompleto (<b>gift exchange</b>) vs completo: (1) o esforço <b>sobe com o salário</b> oferecido; (2) com contratos completos os salários <b>caem</b>, com gift exchange as empresas pagam voluntariamente <b>mais</b>; (3) o efeito da concorrência sobre os salários é só <b>temporário</b>. Fehr, Klein &amp; Schmidt: <b>88%</b> escolhem o contrato incompleto — a monitorização <b>bloqueia</b> a reciprocidade e gera retaliação.</div>
+
+  <div class="quote r">Os líderes procuram captar o entusiasmo e a confiança, para que os subordinados façam o que está certo por sua própria vontade. […] muitos empresários acreditavam que só o compromisso moral os separava do caos.<cite>Bewley, 1998 · "Why not cut pay?"</cite></div>
+  <p class="muted r"><strong>Porque não cortar salários?</strong> (Bewley) Mina a cooperação, faz sair os melhores, fere a equidade da estrutura salarial e destrói <strong>confiança</strong> — e nem sequer garante salvar empregos.</p>
+
+  <details class="more r"><summary><span class="plus">+</span> Saber mais — casos concretos &amp; frequência</summary>
+    <div class="more-body"><span class="src">Casos: gig workers (Indonésia) · care workers vs NHS · social work diary</span><br>Exemplos atuais de (in)equidade, esforço e reciprocidade no trabalho — ótimos para ilustrar gift exchange e fairness. ⭐ <b>A Pergunta 2 da frequência</b> pede exatamente "gift exchange aplicado ao mercado de trabalho".</div>
+  </details>
+
+  <div class="tldr r" style="--accent:var(--p3)"><h4><span class="spark">✦</span> Super-compilação · Parte 3</h4>
+    <ul>
+      <li><b>3.1</b> Nos <b>dilemas sociais</b> (prisioneiro, bens públicos, comuns) a racionalidade egoísta prevê free-riding — mas a evidência mostra <b>cooperação condicional</b> e <b>reciprocidade</b>; Ostrom: comunidades autorregulam-se sob certas condições.</li>
+      <li><b>3.2</b> As pessoas têm <b>preferências sociais</b>: reciprocidade (≠ altruísmo), <b>aversão à desigualdade</b> (Fehr-Schmidt: α inveja &gt; β culpa). Preferências <b>endógenas</b>; <b>intenções</b> contam (Kahan: confiança &gt; incentivos).</li>
+      <li><b>3.3</b> Com <b>contratos incompletos</b>, o trabalho funciona como <b>gift exchange</b> (salário↑ → esforço↑); monitorizar pode <b>destruir</b> reciprocidade; cortar salários mina a confiança (Bewley).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== PART 4 ===== -->
+<section id="p4" class="page part" style="--accent:var(--p4); --accent-glow:rgba(251,191,36,.18)">
+  <div class="part-head"><span class="part-num">4</span><h2>O desenho de instituições e a formulação de políticas</h2></div>
+  <div class="accent-bar"></div>
+  <p class="muted r">Se os agentes não são nem perfeitamente racionais nem egoístas, como desenhar <strong>instituições e políticas</strong>? Aqui vê-se quando os incentivos <em>falham</em> e como o Estado pode (ou não) ajudar a escolher melhor.</p>
+
+  <!-- 4.1 -->
+  <h3 class="sub-head r" id="p41">O papel das instituições <span class="tag">4.1</span></h3>
+  <div class="authors r"><span class="atag"><b>Aula 15</b></span><span class="atag">Veblen 1919</span><span class="atag">North 1990</span><span class="atag">Hodgson 2006</span></div>
+  <div class="grid">
+    <div class="card r"><div class="term">Veblen (1919)</div><div class="def">Instituições = <b>hábitos estabelecidos de pensamento</b> comuns à generalidade dos homens.</div></div>
+    <div class="card r"><div class="term">North (1990)</div><div class="def">Instituições = <b>regras do jogo</b> da sociedade; restrições que organizam a interação social.</div></div>
+    <div class="card r"><div class="term">Hodgson (2006)</div><div class="def">Sistemas <b>duradouros de regras sociais</b> embutidas em hábitos, que estruturam as interações.</div></div>
+  </div>
+  <p class="r">As instituições <strong>organizam a ação</strong>, dão <strong>previsibilidade</strong> e <strong>estabilidade</strong>, e ao mesmo tempo <strong>restringem e viabilizam</strong>. O ponto comportamental decisivo: elas não só constrangem — <strong>moldam as próprias preferências e crenças</strong> dos indivíduos (efeitos duradouros, por vezes irreversíveis). As <em>organizações</em> (empresas, sindicatos) são um tipo especial de instituição.</p>
+
+  <!-- 4.2 -->
+  <h3 class="sub-head r" id="p42">Incentivos pecuniários vs normas sociais e morais <span class="tag">4.2</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 16-18</b></span><span class="atag">Gneezy &amp; Rustichini</span><span class="atag">Frey 1997</span><span class="atag">Deci 1971</span></div>
+  <div class="quote r">A economia é, na raiz, o estudo dos incentivos. […] o economista típico acredita que ainda não foi inventado o problema que ele não consiga resolver, dada a liberdade de desenhar o esquema de incentivos adequado.<cite>Levitt &amp; Dubner, Freakonomics, 2004</cite></div>
+
+  <div class="callout key r"><div class="lbl">O que é um incentivo</div>Alteração do <b>enquadramento externo</b> (prémios/penalizações monetárias) que muda o <b>cálculo custo-benefício</b> das alternativas, dirigindo o comportamento. No modelo agente-principal, contratos <b>"incentive-compatible"</b> alinham o agente egoísta com o principal — exigindo monitorização e controlo.</div>
+
+  <h4 class="mini r">O estudo decisivo — "A Fine is a Price" (Gneezy &amp; Rustichini, 2000)</h4>
+  <p class="r">Creches em Haifa: introduz-se uma <strong>multa</strong> pelos atrasos dos pais. Resultado contraintuitivo — os atrasos <strong>aumentaram</strong>, e ao remover a multa <strong>não voltaram</strong> ao nível anterior.</p>
+  <div class="diagram r" style="padding:18px">
+    <table style="min-width:0;max-width:520px;margin:0 auto;text-align:center">
+      <thead><tr><th style="text-align:left">Atrasos (média)</th><th>Sem. 1-4<br><span class="muted">antes</span></th><th>Sem. 5-16<br><span class="muted">com multa</span></th><th>Sem. 17-20<br><span class="muted">multa removida</span></th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left"><b>Creches c/ multa</b> (média)</td><td>~8</td><td style="background:rgba(251,113,133,.12)"><b style="color:var(--warn)">↑ 16</b></td><td style="background:rgba(251,113,133,.12)"><b style="color:var(--warn)">~19 (fica)</b></td></tr>
+        <tr><td style="text-align:left"><b>Controlo</b> (sem multa)</td><td>~10</td><td>~9</td><td>~8</td></tr>
+      </tbody>
+    </table>
+    <div class="d-cap">A multa não corrigiu — transformou a relação</div>
+  </div>
+  <div class="callout ex r"><div class="lbl">Porquê? A explicação das normas</div>Antes, chegar a horas era uma <b>norma social</b>: os pais viam a tolerância dos educadores como uma <b>dádiva</b> a não abusar. A multa transformou-a num <b>preço</b>: "pago e atraso-me à vontade — estou a comprar um serviço". E <b>"o que é comercializado uma vez vira mercadoria"</b> — por isso a norma não regressou.</div>
+
+  <div class="grid">
+    <div class="card r"><div class="term">Motivação intrínseca</div><div class="def">Deci (1971): faz-se a atividade porque <b>a própria atividade é a recompensa</b>. (vs extrínseca = induzida por prémios/sanções.)</div></div>
+    <div class="card r"><div class="term">Crowding-out</div><div class="def"><b>Frey (1997)</b>: o incentivo monetário pode <b>erodir</b> a motivação intrínseca, substituindo relações não-monetárias por monetárias. Fere autoestima e autonomia.</div></div>
+    <div class="card r"><div class="term">Dimensão expressiva</div><div class="def">Os incentivos <b>sinalizam</b> algo: fortes incentivos podem indicar "os outros não cooperam" → mais desconfiança.</div></div>
+    <div class="card r"><div class="term">Escolha trágica</div><div class="def">Introduzido o prémio/sanção, a adesão à norma <b>muda de significado</b> e deixa de exprimir o compromisso ético inicial.</div></div>
+  </div>
+  <div class="quote r">A confiança é um lubrificante importante do sistema social […] mas se a tentarmos comprar, teremos imediatamente de duvidar daquilo que adquirimos.<cite>Arrow, 1974, p.23</cite></div>
+
+  <!-- 4.3 -->
+  <h3 class="sub-head r" id="p43">Paternalismo vs liberdade individual <span class="tag">4.3</span></h3>
+  <div class="authors r"><span class="atag"><b>Aulas 19-21</b></span><span class="atag">Thaler &amp; Sunstein</span><span class="atag">Camerer 2003</span><span class="atag">Fine et al.</span></div>
+  <p class="muted r">Se as pessoas procrastinam e erram, <strong>deve o Estado ajudá-las a escolher melhor</strong>? Três posições no debate:</p>
+  <div class="grid">
+    <div class="card r"><div class="term" style="color:var(--p4)">Paternalista</div><div class="def">O Estado deve zelar pelos interesses individuais e coletivos (ex.: comunitarista).</div></div>
+    <div class="card r"><div class="term" style="color:var(--p4)">Libertário</div><div class="def">Nenhum limite à escolha individual (ex.: Hayek).</div></div>
+    <div class="card r"><div class="term" style="color:var(--p4)">Paternalismo libertário</div><div class="def"><b>Thaler &amp; Sunstein</b>: influenciar a escolha <b>preservando a liberdade</b> (sem coação).</div></div>
+  </div>
+
+  <div class="callout key r"><div class="lbl">Paternalismo libertário (Thaler &amp; Sunstein, 2003)</div><b>Paternalista</b> porque procura melhorar o bem-estar do indivíduo; <b>libertário</b> porque não há coação. Justifica-se quando se fazem escolhas inferiores por <b>informação incompleta, limites de cálculo e falta de força de vontade</b>.</div>
+  <div class="callout r"><div class="lbl">Paternalismo assimétrico (Camerer et al., 2003)</div>"Cria <b>grandes benefícios</b> para quem erra, impondo <b>pouco ou nenhum custo</b> a quem é plenamente racional." → o melhor dos dois mundos.</div>
+
+  <h4 class="mini r">Nudge — a arquitetura da escolha</h4>
+  <p class="r">Como <strong>não existe escolha "neutra"</strong> (a forma de apresentar sempre influencia), mais vale desenhá-la bem: <em>"There has to be a design — why not make it a good one?"</em> Ferramentas: <strong>defaults</strong> (opção por omissão), enquadramento e informação, <em>cooling-off</em>, limites à escolha.</p>
+  <div class="callout ex r"><div class="lbl">Exemplo — planos de poupança (opt-out)</div>Como poucos aderem, a empresa torna a inscrição <b>automática</b> (default), com saída livre. Só é legítimo se a opção-base for a que escolheriam sem procrastinar. <b>Avaliação</b>: baixas taxas de rescisão sugerem que serve os interesses… <em>ou estarão a procrastinar também na saída?</em> (a ambiguidade é a crítica).</div>
+  <div class="callout warn r"><div class="lbl">⚠ Críticas ao nudge (Fine et al. — "Nudging or Fudging")</div>Foca-se em <b>medidas micro</b> e arrisca ignorar as <b>causas estruturais</b>; ameaça a <b>autonomia</b>; dispensa a <b>deliberação coletiva</b>; assume preferências homogéneas; e a <b>validade externa</b> das experiências é frágil.</div>
+
+  <div class="tldr r" style="--accent:var(--p4)"><h4><span class="spark">✦</span> Super-compilação · Parte 4</h4>
+    <ul>
+      <li><b>4.1</b> As <b>instituições</b> (Veblen/North/Hodgson) organizam a ação e dão previsibilidade — e <b>moldam as preferências</b>, não só as restringem.</li>
+      <li><b>4.2</b> Incentivos podem ter <b>efeitos perversos</b>: "<b>a fine is a price</b>" (creches de Haifa) e <b>crowding-out</b> (Frey) da motivação intrínseca. Incentivar a confiança pode destruí-la (Arrow).</li>
+      <li><b>4.3</b> <b>Paternalismo libertário</b> / <b>nudge</b> (Thaler &amp; Sunstein): influenciar sem coagir via <b>defaults</b> e arquitetura da escolha; <b>paternalismo assimétrico</b> (Camerer). Críticas: ignora o estrutural e a autonomia (Fine et al.).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== PART 5 ===== -->
+<section id="p5" class="page part" style="--accent:var(--p5); --accent-glow:rgba(52,211,153,.18)">
+  <div class="part-head"><span class="part-num">5</span><h2>Desenvolvimentos recentes — Neuroeconomia</h2></div>
+  <div class="accent-bar"></div>
+  <p class="muted r">A fronteira: usar a <strong>neurociência</strong> para abrir a "caixa negra" da decisão. Camerer, Loewenstein &amp; Prelec (2005) perguntam como o cérebro pode informar os microfundamentos da economia.</p>
+  <div class="authors r"><span class="atag"><b>Aula 22</b></span><span class="atag">Camerer, Loewenstein &amp; Prelec 2005</span></div>
+
+  <div class="diagram r">
+    <svg viewBox="0 0 480 200" role="img" aria-label="Abrir a caixa negra">
+      <!-- convencional -->
+      <text x="120" y="22" fill="#7e879e" font-size="11" font-family="monospace" text-anchor="middle">MODELO CONVENCIONAL</text>
+      <rect x="20" y="40" width="80" height="46" rx="8" fill="#161922" stroke="#333a4d"/>
+      <text x="60" y="68" fill="#aeb4c6" font-size="10.5" font-family="monospace" text-anchor="middle">Ambiente</text>
+      <rect x="120" y="40" width="80" height="46" rx="8" fill="#0d0e13" stroke="#333a4d"/>
+      <text x="160" y="60" fill="#7e879e" font-size="10" font-family="monospace" text-anchor="middle">caixa</text>
+      <text x="160" y="74" fill="#7e879e" font-size="10" font-family="monospace" text-anchor="middle">negra</text>
+      <line x1="100" y1="63" x2="118" y2="63" stroke="#7e879e" stroke-width="1.5" marker-end="url(#ar)"/>
+      <line x1="200" y1="63" x2="218" y2="63" stroke="#7e879e" stroke-width="1.5" marker-end="url(#ar)"/>
+      <rect x="220" y="40" width="80" height="46" rx="8" fill="#161922" stroke="#333a4d"/>
+      <text x="260" y="68" fill="#aeb4c6" font-size="10" font-family="monospace" text-anchor="middle">Comportamento</text>
+      <!-- neuro -->
+      <text x="120" y="120" fill="#34d399" font-size="11" font-family="monospace" text-anchor="middle">COM NEUROCIÊNCIA</text>
+      <rect x="20" y="138" width="80" height="46" rx="8" fill="#161922" stroke="#333a4d"/>
+      <text x="60" y="166" fill="#aeb4c6" font-size="10.5" font-family="monospace" text-anchor="middle">Ambiente</text>
+      <rect x="120" y="138" width="80" height="46" rx="8" fill="rgba(52,211,153,.1)" stroke="#34d399"/>
+      <text x="160" y="160" fill="#34d399" font-size="10.5" font-family="monospace" text-anchor="middle">Cérebro</text>
+      <text x="160" y="174" fill="#7e879e" font-size="9" font-family="monospace" text-anchor="middle">emoção+cognição</text>
+      <line x1="100" y1="161" x2="118" y2="161" stroke="#34d399" stroke-width="1.5" marker-end="url(#ar2)"/>
+      <line x1="200" y1="161" x2="218" y2="161" stroke="#34d399" stroke-width="1.5" marker-end="url(#ar2)"/>
+      <rect x="220" y="138" width="80" height="46" rx="8" fill="#161922" stroke="#333a4d"/>
+      <text x="260" y="166" fill="#aeb4c6" font-size="10" font-family="monospace" text-anchor="middle">Comportamento</text>
+      <text x="370" y="115" fill="#e7e9f0" font-size="12" font-family="monospace" text-anchor="middle">abrir a</text>
+      <text x="370" y="132" fill="#34d399" font-size="13" font-family="monospace" text-anchor="middle" font-weight="bold">caixa negra</text>
+      <path d="M325,63 C370,63 370,120 350,135" fill="none" stroke="#333a4d" stroke-width="1" stroke-dasharray="3 3"/>
+      <defs>
+        <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#7e879e"/></marker>
+        <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#34d399"/></marker>
+      </defs>
+    </svg>
+    <div class="d-cap">O agente deixa de ser uma "caixa negra"</div>
+  </div>
+
+  <h4 class="mini r">Os 2 eixos do cérebro (Camerer et al.)</h4>
+  <div class="tbl-wrap r"><table>
+    <thead><tr><th></th><th>Cognitivo</th><th>Afetivo</th></tr></thead>
+    <tbody>
+      <tr><td><b>Controlado/deliberativo</b><br><span class="muted">sequencial, com esforço, introspetável</span></td><td>I</td><td>II</td></tr>
+      <tr><td><b>Automático</b><br><span class="muted">paralelo, sem esforço, sem introspeção</span></td><td>III</td><td>IV</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted r">Os processos controlados só "ligam" quando os automáticos são <strong>interrompidos</strong> (eventos inesperados, estados viscerais fortes). E <strong>a cognição sozinha não produz ação</strong> — tem de operar via o sistema afetivo.</p>
+
+  <div class="grid">
+    <div class="card r"><div class="term">Preferências instáveis</div><div class="def">"Preferência ao risco", "altruísmo", "desconto temporal" <b>não são estáveis</b> entre domínios — desafiam o parâmetro fixo.</div></div>
+    <div class="card r"><div class="term">Liking ≠ Wanting</div><div class="def">Dois sistemas: <b>prazer</b> ("liking") e <b>motivação</b> ("wanting"). Podem divergir — desafio à economia do bem-estar.</div></div>
+    <div class="card r"><div class="term">Paying hurts</div><div class="def">Se o dinheiro dá prazer direto, <b>pagar dói</b> — explica fenómenos de mercado de outra forma intrigantes.</div></div>
+    <div class="card r"><div class="term">Crítica à racionalidade</div><div class="def">Não há <b>acesso introspetivo</b> às razões; a escolha racional aplica-se melhor às decisões <b>simples</b>, não às complexas.</div></div>
+  </div>
+
+  <div class="tldr r" style="--accent:var(--p5)"><h4><span class="spark">✦</span> Super-compilação · Parte 5</h4>
+    <ul>
+      <li>A <b>neuroeconomia</b> abre a "caixa negra": o cérebro mistura processos <b>cognitivos/afetivos × controlados/automáticos</b>; a cognição só age <b>via</b> o afeto.</li>
+      <li>Implicações: preferências <b>instáveis</b> entre domínios; <b>liking ≠ wanting</b> (desafia o bem-estar padrão); "<b>paying hurts</b>"; e a racionalidade serve melhor o <b>simples</b> que o complexo.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== EXAM ===== -->
+<section id="freq" class="page part" style="--accent:var(--p2); --accent-glow:rgba(34,211,238,.18)">
+  <div class="part-head"><span class="part-num">✶</span><h2>Frequência 2023-24 — resolvida</h2></div>
+  <div class="accent-bar"></div>
+  <div class="exam-intro r">
+    <p style="margin:0 0 8px"><strong>Formato:</strong> 1h30 · 20 valores · só perguntas de desenvolvimento.</p>
+    <p style="margin:0;color:var(--tx2)"><strong>Grupo I</strong> — 2 perguntas obrigatórias (3 val. cada). <strong>Grupo II</strong> — responder a <strong>2 de 3</strong> (7 val. cada). Avalia-se também clareza, relevância e <strong>argumentação própria</strong>.</p>
+  </div>
+  <p class="muted r">Tenta responder de cabeça primeiro — depois revela a resolução-modelo e compara a <em>engenharia</em> do argumento.</p>
+
+  <div class="kicker r" style="margin-top:24px">Grupo I · obrigatórias</div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">1</span><div><div class="qmeta">3 valores · Poupança / preferências hiperbólicas</div><div class="qtext">Defina o conceito de preferências hiperbólicas. Apresente um exemplo.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Pergunta de definição — a cotação quer <strong>(a) definição precisa + (b) o mecanismo + (c) um exemplo concreto</strong>. Não basta dizer "descontar o futuro".</p>
+      <h5>Definição</h5>
+      <p>Preferências hiperbólicas designam um padrão de <strong>escolha intertemporal</strong> em que a <strong>taxa de desconto não é constante</strong> (ao contrário do modelo da utilidade descontada), mas <strong>decresce com o horizonte temporal</strong>: damos um peso desproporcionado ao presente imediato. Isto gera <strong>preferências temporalmente inconsistentes</strong> — as curvas de valor das recompensas <strong>cruzam-se</strong> e há <strong>inversão de preferência</strong> à medida que a recompensa próxima se aproxima.</p>
+      <h5>Mecanismo a mobilizar</h5>
+      <ul>
+        <li>Contraste com o desconto exponencial constante (δ fixo) → o hiperbólico explica o <strong>auto-controlo</strong> e a <strong>procrastinação</strong>.</li>
+        <li>O comportamento <strong>não revela</strong> a preferência "verdadeira": a pessoa preferia ter agido de outro modo (daí as <strong>estratégias de compromisso</strong>).</li>
+      </ul>
+      <h5>Exemplo</h5>
+      <p>Hoje, decido que para a semana vou estudar em vez de sair (prefiro a recompensa maior e distante: boa nota). Mas <strong>quando chega o dia</strong>, a tentação imediata (sair com amigos) inverte a preferência e procrastino — embora continue a "querer" a boa nota. Outro: prefiro 110€ daqui a 31 dias a 100€ daqui a 30; mas prefiro 100€ <em>hoje</em> a 110€ amanhã.</p>
+      <p class="muted" style="font-size:13px">Liga a: weakness of will, procrastinação, estratégias de compromisso (2.2) · Loewenstein &amp; Thaler.</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p22">2.2 Poupança</span><span class="ref" data-target="deep2">Aprofundar · Parte 2</span></div>
+    </div>
+  </div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">2</span><div><div class="qmeta">3 valores · Contratos incompletos / mercado de trabalho</div><div class="qtext">Diga o que entende por <em>gift exchange</em> e esclareça a sua aplicação ao mercado de trabalho.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Duas partes explícitas no enunciado: <strong>(a) definir gift exchange</strong> e <strong>(b) aplicá-lo ao mercado de trabalho</strong>. Mostra que entendes o <em>mecanismo de reciprocidade</em>, não só o rótulo.</p>
+      <h5>O conceito</h5>
+      <p><em>Gift exchange</em> (troca de dádivas) é uma relação de <strong>reciprocidade</strong> em que uma parte oferece voluntariamente algo acima do estritamente exigido, e a outra retribui na mesma lógica — sustentada por <strong>normas sociais</strong>, não por contrato completo nem por puro cálculo egoísta.</p>
+      <h5>Aplicação ao mercado de trabalho (Akerlof, 1982)</h5>
+      <ul>
+        <li>O contrato de trabalho é <strong>incompleto</strong>: não se consegue especificar nem verificar todo o esforço.</li>
+        <li>A empresa paga um salário <strong>acima</strong> do mínimo de mercado (a "dádiva"); o trabalhador retribui com <strong>esforço acima</strong> do mínimo exigível.</li>
+        <li>Evidência (Fehr et al., 1998): nos mercados de gift exchange o <strong>esforço sobe com o salário</strong> oferecido e as empresas pagam voluntariamente mais do que num mercado de contratos completos; <strong>monitorizar pode destruir</strong> a reciprocidade (Fehr, Klein &amp; Schmidt: 88% preferem o contrato incompleto).</li>
+      </ul>
+      <p class="muted" style="font-size:13px">Liga a: salário-eficiência, reciprocidade (3.2), "why not cut pay?" de Bewley.</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p33">3.3 Contratos incompletos</span><span class="ref" data-target="deep3">Aprofundar · Parte 3</span></div>
+    </div>
+  </div>
+
+  <div class="kicker r" style="margin-top:30px">Grupo II · responder a 2 de 3</div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">3</span><div><div class="qmeta">7 valores · Racionalidade limitada / crédito</div><div class="qtext">No crédito, as pessoas tendem a fixar a atenção no valor da prestação, negligenciando outras características (Santos, 2015). Como interpreta este padrão comportamental?</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Pergunta de 7 valores = ensaio estruturado. Pede uma <strong>interpretação à luz das teorias</strong>: identificar o fenómeno → mobilizar 2-3 conceitos da Parte 2 → relacionar criticamente → fechar com implicações.</p>
+      <h5>Como construir</h5>
+      <ul>
+        <li><strong>Atenção e racionalidade limitada (Simon):</strong> o decisor tem capacidade de cálculo finita; perante um produto multidimensional (TAEG, prazo, seguros, montante total), <strong>simplifica</strong> focando-se na dimensão mais saliente — a prestação mensal.</li>
+        <li><strong>Heurística da saliência / framing:</strong> a prestação é o número apresentado e fácil de comparar (a "âncora"); o <strong>custo total</strong> do crédito fica invisível. Diferentes apresentações induziriam decisões diferentes.</li>
+        <li><strong>Mental accounting + present bias:</strong> a prestação "cabe no orçamento mensal" (conta de curto prazo), enquanto o custo total e o longo prazo são descontados hiperbolicamente → sub-avaliação do endividamento.</li>
+        <li><strong>Crítica/implicações:</strong> isto contraria o agente racional (que ponderaria o valor presente de todos os fluxos). Abre espaço a <strong>políticas</strong>: obrigar a destacar a TAEG/custo total, nudges de informação — ponte para a Parte 4.</li>
+      </ul>
+      <p class="muted" style="font-size:13px">Conceitos-chave: racionalidade limitada, atenção/saliência, framing, mental accounting, desconto hiperbólico. (Santos, 2015 — Endividamento das Famílias.)</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p21">2.1 Consumo e investimento</span><span class="ref" data-target="p22">2.2 Poupança</span><span class="ref" data-target="deep2">Aprofundar · Parte 2</span></div>
+    </div>
+  </div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">4</span><div><div class="qmeta">7 valores · Preferências e normas sociais</div><div class="qtext">Distinga reciprocidade (positiva e/ou negativa) de altruísmo e mostre em que sentido essa distinção é importante para abarcar a variedade de resultados experimentais.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>O enunciado tem 2 movimentos: <strong>(a) distinguir</strong> os conceitos e <strong>(b) mostrar o seu poder explicativo</strong> sobre a evidência experimental. A nota está sobretudo em (b).</p>
+      <h5>A distinção</h5>
+      <ul>
+        <li><strong>Altruísmo:</strong> preocupação <strong>incondicional</strong> com o bem-estar do outro — ajudo independentemente do que o outro faça (warm-glow, prazer com o prazer alheio).</li>
+        <li><strong>Reciprocidade:</strong> resposta <strong>condicional</strong> à ação/intenção do outro — <strong>positiva</strong> (retribuo a cooperação/gentileza) e <strong>negativa</strong> (puno a deserção, mesmo com custo próprio).</li>
+      </ul>
+      <h5>Porque a distinção é decisiva (o ponto dos 7 valores)</h5>
+      <ul>
+        <li><strong>Rejeições no ultimato</strong> e <strong>punição</strong> nos bens públicos: o altruísmo <strong>não</strong> explica (destruir o próprio ganho para punir não é "querer bem ao outro") — a reciprocidade <strong>negativa</strong> explica.</li>
+        <li><strong>Queda da cooperação com a repetição</strong> e <strong>cooperação condicional</strong>: explica-se por reciprocidade (coopero <em>se</em> os outros cooperam), não por altruísmo (que seria estável).</li>
+        <li><strong>As intenções contam</strong> (McCabe — trust game voluntário vs involuntário): o mesmo resultado gera respostas diferentes consoante a intenção revelada → coerente com reciprocidade, não com altruísmo cego.</li>
+        <li><strong>Heterogeneidade:</strong> uma minoria de egoístas pode arrastar reciprocadores para a não-cooperação (reciprocidade negativa) — explica a variância entre grupos.</li>
+      </ul>
+      <p class="muted" style="font-size:13px">Mobiliza: Fehr &amp; Gächter, McCabe et al., aversão à desigualdade, preferências endógenas.</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p32">3.2 Preferências e normas</span><span class="ref" data-target="p31">3.1 Dilemas sociais</span><span class="ref" data-target="deep3">Aprofundar · Parte 3</span></div>
+    </div>
+  </div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">5</span><div><div class="qmeta">7 valores · Caso aplicado · Paternalismo/nudge</div><div class="qtext">Como economista comportamental, proponha <strong>duas medidas</strong> para reduzir o desperdício alimentar em cantinas, justificando-as à luz das teorias comportamentais.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Pergunta <strong>aplicada</strong>: a nota vem da <strong>justificação teórica</strong>, não das medidas em si. Estrutura: enquadrar (nudge/arquitetura da escolha) → 2 medidas concretas → cada uma ligada a 1-2 conceitos → ressalva crítica.</p>
+      <h5>Enquadramento</h5>
+      <p>Como não há "escolha neutra", desenha-se a <strong>arquitetura da escolha</strong> (Thaler &amp; Sunstein) para reduzir o desperdício <strong>sem proibir</strong> nada (paternalismo libertário).</p>
+      <h5>Medida 1 — pratos/porções mais pequenos por defeito</h5>
+      <ul>
+        <li><strong>Default + saliência:</strong> a opção por omissão é um prato menor (com refill livre). Aproveita a <strong>inércia</strong> e o present bias; quem quer mais, pede — preserva a liberdade.</li>
+        <li>Justificação: reduz a sobre-estimação da fome no momento de servir (projection bias) e o desperdício do "olho maior que a barriga".</li>
+      </ul>
+      <h5>Medida 2 — norma social tornada visível</h5>
+      <ul>
+        <li><strong>Mensagem de norma descritiva:</strong> cartaz "a maioria dos alunos desta cantina deixa o prato limpo / evita desperdício". Aciona <strong>preferências sociais</strong> e conformidade à norma.</li>
+        <li>Alternativa: feedback visível do desperdício agregado (saliência da informação).</li>
+      </ul>
+      <h5>Ressalva crítica (vale nota)</h5>
+      <p>Reconhecer os <strong>limites do nudge</strong> (Fine et al.): medidas micro não resolvem causas estruturais (preços, porções industriais, hábitos), e há que avaliar a eficácia real e a autonomia. Uma boa resposta mostra que sabe <em>onde o nudge falha</em>.</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p43">4.3 Paternalismo vs liberdade</span><span class="ref" data-target="deep4">Aprofundar · Parte 4</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXAME ===== -->
+<section id="exame" class="page part" style="--accent:var(--p5); --accent-glow:rgba(52,211,153,.18)">
+  <div class="part-head"><span class="part-num">✶</span><h2>Exame 1ª Época 2023-24 — resolvido</h2></div>
+  <div class="accent-bar"></div>
+  <div class="exam-intro r">
+    <p style="margin:0 0 8px"><strong>Formato:</strong> 1h30 (+15 min tolerância) · 20 valores · só perguntas de desenvolvimento.</p>
+    <p style="margin:0;color:var(--tx2)"><strong>Grupo I</strong> — 2 perguntas obrigatórias (<strong>2,5 val.</strong> cada). <strong>Grupo II</strong> — 3 perguntas, responde-se às <strong>três</strong> (<strong>5 val.</strong> cada).</p>
+    <div class="callout r" style="margin:14px 0 0"><div class="lbl">💡 Nota importante</div>As perguntas <b>coincidem com as da Frequência</b> — muda o <b>formato</b>: no exame o Grupo II vale 5 val. cada e respondes a <b>todas</b> (não escolhes 2 de 3). Logo, treina as 5 respostas.</div>
+  </div>
+  <p class="muted r">Tenta responder de cabeça e revela a resolução-modelo. Em cada uma tens links para <strong>rever no site</strong>.</p>
+
+  <div class="kicker r" style="margin-top:24px">Grupo I · obrigatórias · 2,5 val. cada</div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">1</span><div><div class="qmeta">2,5 valores · Poupança / preferências hiperbólicas</div><div class="qtext">Defina o conceito de preferências hiperbólicas. Apresente um exemplo.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Pergunta de definição (2,5 val.): exige <strong>definição precisa + mecanismo + exemplo concreto</strong>. Sê direto — não há espaço para enrolar.</p>
+      <h5>Definição</h5>
+      <p>Padrão de <strong>escolha intertemporal</strong> em que a <strong>taxa de desconto não é constante</strong> (contra o modelo da utilidade descontada), mas <strong>decresce com o horizonte temporal</strong>: dá-se um peso desproporcionado ao presente imediato. Daí resultam <strong>preferências temporalmente inconsistentes</strong> — as curvas de valor de uma recompensa pequena-cedo e de uma grande-tarde <strong>cruzam-se</strong>, gerando <strong>inversão de preferência</strong> quando a recompensa próxima se aproxima.</p>
+      <h5>Exemplo</h5>
+      <p>Prefiro 110€ daqui a 31 dias a 100€ daqui a 30 — mas prefiro 100€ <em>hoje</em> a 110€ amanhã. Ou: hoje planeio estudar para a semana, mas quando chega o dia cedo à tentação imediata e procrastino, embora continue a "querer" a boa nota. Liga ao <strong>auto-controlo</strong> e às <strong>estratégias de compromisso</strong>.</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p22">2.2 Poupança</span><span class="ref" data-target="deep2">Aprofundar · Parte 2</span></div>
+    </div>
+  </div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">2</span><div><div class="qmeta">2,5 valores · Contratos incompletos / trabalho</div><div class="qtext">Diga o que entende por <em>gift exchange</em> e esclareça a sua aplicação ao mercado de trabalho.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Duas partes: <strong>definir</strong> + <strong>aplicar ao trabalho</strong>. Mostra o <em>mecanismo de reciprocidade</em>, não só o rótulo.</p>
+      <h5>Conceito</h5>
+      <p><em>Gift exchange</em> (troca de dádivas) é uma relação de <strong>reciprocidade</strong>: uma parte oferece voluntariamente algo acima do exigido, e a outra retribui na mesma lógica — sustentada por <strong>normas sociais</strong>, não por contrato completo nem por cálculo egoísta.</p>
+      <h5>Aplicação ao trabalho (Akerlof, 1982)</h5>
+      <ul>
+        <li>O contrato é <strong>incompleto</strong>: o esforço não se especifica nem se verifica totalmente.</li>
+        <li>A empresa paga <strong>acima</strong> do mínimo de mercado (a "dádiva"); o trabalhador retribui com <strong>esforço acima</strong> do mínimo.</li>
+        <li>Evidência (Fehr et al., 1998): o <strong>esforço sobe com o salário</strong>, as empresas pagam voluntariamente rendas, e a <strong>monitorização pode destruir</strong> a reciprocidade.</li>
+      </ul>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p33">3.3 Contratos incompletos</span><span class="ref" data-target="deep3">Aprofundar · Parte 3</span></div>
+    </div>
+  </div>
+
+  <div class="kicker r" style="margin-top:30px">Grupo II · responde às TRÊS · 5 val. cada</div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">3</span><div><div class="qmeta">5 valores · Racionalidade limitada / crédito</div><div class="qtext">No crédito, as pessoas tendem a fixar a atenção no valor da prestação, negligenciando outras características (Santos, 2015). Como interpreta este padrão comportamental?</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Ensaio estruturado: identificar o fenómeno → mobilizar 2-3 conceitos da Parte 2 → relacionar criticamente → implicações.</p>
+      <ul>
+        <li><strong>Racionalidade limitada (Simon):</strong> capacidade de cálculo finita; perante um produto multidimensional (TAEG, prazo, seguros, custo total), <strong>simplifica-se</strong> focando a dimensão mais saliente — a prestação mensal.</li>
+        <li><strong>Saliência / framing:</strong> a prestação é o número apresentado e fácil de comparar (a "âncora"); o <strong>custo total</strong> fica invisível.</li>
+        <li><strong>Mental accounting + present bias:</strong> a prestação "cabe no orçamento mensal" (curto prazo), enquanto o custo total e o longo prazo são descontados hiperbolicamente → sub-avaliação do endividamento.</li>
+        <li><strong>Implicações:</strong> contraria o agente racional (que ponderaria o valor presente de todos os fluxos); justifica <strong>políticas</strong> de destaque da TAEG/custo total e nudges de informação (Parte 4).</li>
+      </ul>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p21">2.1 Consumo e investimento</span><span class="ref" data-target="p22">2.2 Poupança</span><span class="ref" data-target="deep2">Aprofundar · Parte 2</span></div>
+    </div>
+  </div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">4</span><div><div class="qmeta">5 valores · Preferências e normas sociais</div><div class="qtext">Distinga reciprocidade (positiva e/ou negativa) de altruísmo e mostre em que sentido essa distinção é importante para abarcar a variedade de resultados experimentais.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>Dois movimentos: <strong>distinguir</strong> + <strong>mostrar o poder explicativo</strong> sobre a evidência. A nota está sobretudo no segundo.</p>
+      <h5>A distinção</h5>
+      <ul>
+        <li><strong>Altruísmo:</strong> preocupação <strong>incondicional</strong> com o outro (ajudo independentemente do que ele faça).</li>
+        <li><strong>Reciprocidade:</strong> resposta <strong>condicional</strong> à ação/intenção do outro — <strong>positiva</strong> (retribuo cooperação) e <strong>negativa</strong> (puno deserção, mesmo com custo próprio).</li>
+      </ul>
+      <h5>Porque é decisiva</h5>
+      <ul>
+        <li><strong>Rejeições no ultimato</strong> e <strong>punição</strong> nos bens públicos: o altruísmo não explica (destruir o próprio ganho para punir não é "querer bem"); a reciprocidade <strong>negativa</strong> explica.</li>
+        <li><strong>Cooperação condicional</strong> e o seu declínio com a repetição: coopero <em>se</em> os outros cooperam — não é altruísmo (que seria estável).</li>
+        <li><strong>As intenções contam</strong> (McCabe): o mesmo resultado gera respostas diferentes consoante a intenção revelada.</li>
+        <li><strong>Heterogeneidade:</strong> uma minoria de egoístas arrasta reciprocadores para a não-cooperação — explica a variância entre grupos.</li>
+      </ul>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p32">3.2 Preferências e normas</span><span class="ref" data-target="p31">3.1 Dilemas sociais</span><span class="ref" data-target="deep3">Aprofundar · Parte 3</span></div>
+    </div>
+  </div>
+
+  <div class="qcard r">
+    <div class="qhead"><span class="qn">5</span><div><div class="qmeta">5 valores · Caso aplicado · nudges</div><div class="qtext">Como economista comportamental, proponha <strong>duas medidas</strong> para reduzir o desperdício alimentar em cantinas, justificando-as à luz das teorias comportamentais.</div></div></div>
+    <button class="reveal-btn" onclick="reveal(this)">▼ Ver resolução</button>
+    <div class="answer">
+      <div class="albl">Engenharia da resposta</div>
+      <p>A nota vem da <strong>justificação teórica</strong>. Estrutura: enquadrar (arquitetura da escolha) → 2 medidas → cada uma ligada a 1-2 conceitos → ressalva crítica.</p>
+      <h5>Enquadramento</h5>
+      <p>Como não há "escolha neutra", desenha-se a <strong>arquitetura da escolha</strong> (Thaler &amp; Sunstein) para reduzir o desperdício <strong>sem proibir</strong> (paternalismo libertário).</p>
+      <h5>Medida 1 — pratos/porções menores por defeito</h5>
+      <ul><li><strong>Default + inércia:</strong> a opção por omissão é um prato menor (com refill livre); quem quer mais, pede — preserva a liberdade. Combate a sobre-estimação da fome no momento de servir.</li></ul>
+      <h5>Medida 2 — norma social visível</h5>
+      <ul><li><strong>Norma descritiva:</strong> cartaz "a maioria dos alunos evita o desperdício / deixa o prato limpo" → aciona <strong>preferências sociais</strong> e conformidade. Alternativa: feedback visível do desperdício agregado (saliência).</li></ul>
+      <h5>Ressalva crítica (vale nota)</h5>
+      <p>Reconhecer os <strong>limites do nudge</strong> (Fine et al.): medidas micro não atacam causas estruturais (porções industriais, preços, hábitos), e há que avaliar eficácia real e autonomia.</p>
+      <div class="refs"><span class="rlbl">Rever no site:</span><span class="ref" data-target="p43">4.3 Paternalismo vs liberdade</span><span class="ref" data-target="deep4">Aprofundar · Parte 4</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEEP 1 ===== -->
+<section class="page deep" id="deep1" style="--accent:var(--p1); --accent-glow:rgba(148,163,184,.16)">
+  <div class="deep-banner"><span class="di">🔬</span><div class="dt"><small>Vai mais fundo · Parte 1</small><h2>Os textos por dentro</h2><p>Frey &amp; Benz e os 7 princípios do nef — a moldura histórica e epistemológica da disciplina.</p></div></div>
+
+  <h3 class="sub-head r">Frey &amp; Benz — <span class="tag">From Imperialism to Inspiration</span></h3>
+  <div class="callout key r"><div class="lbl">A grande narrativa</div>A economia foi <b>imperialista</b>: expurgou a psicologia e exportou o <em>homo oeconomicus</em> para a família, o crime, a religião. Esse programa atingiu <b>rendimentos decrescentes</b>. Agora inverte-se: de <b>exportar</b> economia para <b>importar</b> psicologia. A economia comportamental é essa fase de <em>inspiração</em>. <b>Atenção:</b> não é demolição — é <b>reequilíbrio</b>. O homo oeconomicus continua a ser boa aproximação em mercados anónimos.</div>
+
+  <h4 class="mini r">A perda da psicologia — contada pela utilidade</h4>
+  <p class="r">Bentham/Edgeworth tinham uma utilidade <strong>hedónica e cardinal</strong> (o "hedonímetro"). A revolução dos anos 1930 (Robbins, Hicks, Samuelson) tornou-a <strong>ordinal</strong>: a utilidade só se infere das escolhas (<em class="t">preferência revelada</em>). Frey &amp; Benz são honestos — isto teve "duas boas razões": os estados mentais são difíceis de medir e a utilidade cardinal não é necessária. O expurgo foi <strong>metodologicamente defensável</strong>, não um erro.</p>
+
+  <h4 class="mini r">Os 5 elementos da abordagem económica</h4>
+  <div class="grid">
+    <div class="card r"><div class="term">1 · Individualismo</div><div class="def">Os indivíduos agem; a "sociedade" não é uma unidade que avalie nada.</div></div>
+    <div class="card r"><div class="term">2 · Incentivos</div><div class="def">As pessoas reagem de forma sistemática e previsível a incentivos.</div></div>
+    <div class="card r"><div class="term">3 · Preferências vs restrições</div><div class="def">Explica-se a mudança por <b>restrições observáveis</b> — que podem ser físicas ou <b>psicológicas</b> (a ponte para a psicologia).</div></div>
+    <div class="card r"><div class="term">4 · Interesse próprio</div><div class="def">Egoísmo — confiável <b>sobretudo em mercados anónimos</b>; falha com menor distância social.</div></div>
+    <div class="card r"><div class="term">5 · Lei da procura</div><div class="def">Substituição marginal, <em>ceteris paribus</em>, generalizada.</div></div>
+  </div>
+
+  <div class="callout r"><div class="lbl">Porque a abordagem económica é valiosa (mesmo p/ a psicologia)</div>Tem <b>coerência, validade universal e previsões claras</b>. "A psicologia não tem um modelo geral de comportamento, mas um grande número de teorias parciais e efeitos isolados." Vantagem de política: é mais fácil mudar comportamento via <b>preços</b> (observáveis) do que via atitudes/valores (cuja mudança é imprevisível).</div>
+
+  <div class="callout warn r"><div class="lbl">⚠ O alvo a superar: o "homunculus oeconomicus"</div>Aquele que está sempre em pleno controlo das emoções · não conhece limites cognitivos · não está numa rede social · é só extrinsecamente motivado · cuja utilidade não se distingue da felicidade. <b>Esta checklist são os 4 programas de reimportação:</b> racionalidade limitada · emoções · preferências sociais · motivação intrínseca + economia da felicidade.</div>
+
+  <div class="callout ex r"><div class="lbl">O problema da agregação (o teste decisivo)</div>A pergunta avançada não é "as pessoas têm vieses?" (têm) mas <b>"sobrevivem os vieses à agregação de mercado?"</b>. Em mercados perfeitamente contratáveis muitos efeitos anulam-se; em <b>mercados incompletos</b> (trabalho, finanças) <b>persistem</b> — rigidez salarial (Bewley), mispricing de ações (De Bondt &amp; Thaler).</div>
+
+  <h3 class="sub-head r">nef — <span class="tag">7 princípios para decisores</span></h3>
+  <p class="muted r">O texto complementar traduz a crítica aos postulados num <strong>vocabulário operacional</strong> de política pública.</p>
+  <div class="grid">
+    <div class="card r"><div class="term">1 · Os outros importam</div><div class="def">Imitação e normas sociais; preferências não são fixas (prova social, identidade).</div></div>
+    <div class="card r"><div class="term">2 · Os hábitos importam</div><div class="def">Muito comportamento é automático; "descongelar → recongelar" (taxa dos sacos).</div></div>
+    <div class="card r"><div class="term">3 · Fazer "o que é certo"</div><div class="def">Dinheiro pode desmotivar (sangue — Titmuss; creches). Crowding-out.</div></div>
+    <div class="card r"><div class="term">4 · Auto-expectativas</div><div class="def">Querer alinhar ações e valores; obter <b>compromissos</b> (dissonância cognitiva).</div></div>
+    <div class="card r"><div class="term">5 · Aversão à perda</div><div class="def">WTA ≫ WTP (até 20×); multa > prémio do mesmo valor.</div></div>
+    <div class="card r"><div class="term">6 · Maus a calcular</div><div class="def">Saliência, desconto, framing, defaults, preço-como-sinal.</div></div>
+    <div class="card r"><div class="term">7 · Envolvimento e eficácia</div><div class="def">Info e escolha em excesso paralisam; a <b>participação</b> vale em si (utilidade procedimental).</div></div>
+  </div>
+
+  <div class="tldr r"><h4><span class="spark">✦</span> O que reter ao nível avançado</h4>
+    <ul>
+      <li>A economia comportamental é uma <b>correção, não uma revolução</b> — o homo oeconomicus falha localizadamente (mercados incompletos, baixa distância social, motivação intrínseca).</li>
+      <li>Os "2 postulados" são, na verdade, <b>4 alvos</b> (homunculus): limites cognitivos · emoções · preferências sociais · motivação/felicidade.</li>
+      <li>O teste decisivo é a <b>agregação</b>, não a anomalia individual.</li>
+      <li>Cuidado com a moldura: Frey &amp; Benz = survey equilibrado; nef = think tank normativo.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== DEEP 2 ===== -->
+<section class="page deep" id="deep2" style="--accent:var(--p2); --accent-glow:rgba(34,211,238,.18)">
+  <div class="deep-banner"><span class="di">🔬</span><div class="dt"><small>Vai mais fundo · Parte 2</small><h2>De Simon a Shiller</h2><p>Cinco textos, um arco único: os limites cognitivos produzem as mesmas anomalias no consumo, na poupança e nos mercados.</p></div></div>
+
+  <h3 class="sub-head r">Simon (1955) <span class="tag">a fundação</span></h3>
+  <div class="callout key r"><div class="lbl">A tese que funda a disciplina</div>A racionalidade tem de ser definida em função do <b>organismo E do ambiente</b> — não só do ambiente. "Aquilo a que chamamos 'o ambiente' pode estar, em parte, <b>dentro da pele do organismo</b>" (p.101). Os limites cognitivos são restrições tão reais como o orçamento.</div>
+  <div class="grid">
+    <div class="card r"><div class="term">Â ⊂ A</div><div class="def">O agente escolhe dentro de um leque <b>percebido</b> mais estreito que o disponível.</div></div>
+    <div class="card r"><div class="term">Pay-offs simples</div><div class="def">{satisfatório / insatisfatório} em vez de utilidade cardinal contínua. Ex.: "preço de aceitação" da casa.</div></div>
+    <div class="card r"><div class="term">Nível de aspiração dinâmico</div><div class="def">Sobe se é fácil encontrar boas opções, desce se é difícil → garante quase-unicidade.</div></div>
+    <div class="card r"><div class="term">Incomparabilidade</div><div class="def">Pay-offs <b>vetoriais</b> (salário vs clima vs prestígio): "a teoria clássica não tolera comparar laranjas e maçãs".</div></div>
+  </div>
+
+  <h3 class="sub-head r">Kahneman (2003) <span class="tag">o motor psicológico</span></h3>
+  <p class="r">Kahneman dá a Simon o que faltava: o mecanismo. <strong>System 1</strong> (intuitivo, automático, emocional) vs <strong>System 2</strong> (lento, esforçado). O princípio unificador é a <em class="t">acessibilidade</em>: o juízo é governado pelo que vem facilmente à mente.</p>
+  <div class="quote r">A característica destes agentes não é que raciocinem mal, mas que <em>agem intuitivamente</em> — guiados não pelo que conseguem computar, mas pelo que acontecem ver num dado momento.<cite>Kahneman, 2003, p.1469</cite></div>
+  <div class="callout ex r"><div class="lbl">As heurísticas são uma só operação: substituição de atributo</div>Responde-se a uma pergunta <b>mais fácil</b> que a colocada. Representatividade, disponibilidade e ancoragem são casos do mesmo mecanismo. E a prospect theory é um caso de um princípio <b>percetual</b>: os sistemas realçam <b>mudanças</b>, não níveis — o "erro de Bernoulli".</div>
+  <div class="callout warn r"><div class="lbl">⚠ Atenção e esforço não compram racionalidade</div>Incentivos elevados <b>não eliminam</b> os enviesamentos. O <em>bat-and-ball</em> (taco+bola = 1,10€) engana metade de Princeton — e quem erra tem <b>taxas de desconto mais altas</b> (ponte para 2.2).</div>
+
+  <h3 class="sub-head r">Schwartz · Loewenstein &amp; Thaler · Shiller <span class="tag">três domínios</span></h3>
+  <div class="grid">
+    <div class="card r"><div class="term">Schwartz (2.1)</div><div class="def"><b>Paradoxo da escolha</b>: mais opções → mais esforço, erro e arrependimento. Distingue <b>chooser</b> (reflete, cria) de <b>picker</b> (agarra à sorte). Peak/End, disponibilidade (Volvo), ancoragem (bread maker).</div></div>
+    <div class="card r"><div class="term">Loewenstein &amp; Thaler (2.2)</div><div class="def">Taxas de desconto de <b>negativas a centenas de %</b>. Três padrões: declinam com o prazo (hiperbólico), com a magnitude, e ganhos > perdas (debt aversion). Saboreio vs pavor.</div></div>
+    <div class="card r"><div class="term">Shiller (2.3)</div><div class="def">O mercado não está ancorado nos fundamentais. <b>Âncoras quantitativas</b> (preço recordado) + <b>âncoras morais</b> (storytelling) + feedback expectacional → bolhas que se soltam subitamente.</div></div>
+  </div>
+  <div class="callout r"><div class="lbl">O fio: do micro à instabilidade sistémica</div>Os <b>mesmos</b> mecanismos (loss aversion, acessibilidade, framing, conflito de selves) escalam: <b>micro</b> (consumidor que não escolhe o melhor — frigorífico ineficiente), <b>meso</b> (sobre-escolha multiplica erro), <b>macro</b> (vieses partilhados + feedback → bolhas). A irracionalidade individual torna-se instabilidade do sistema.</div>
+
+  <div class="tldr r" style="--accent:var(--p2)"><h4><span class="spark">✦</span> Síntese avançada · Parte 2</h4>
+    <ul>
+      <li><b>Simon</b> põe o problema (racionalidade = organismo + ambiente); <b>Kahneman</b> dá o mecanismo (System 1/2, acessibilidade); Schwartz/L&amp;T/Shiller são <b>3 domínios</b> da mesma psicologia.</li>
+      <li>4 mecanismos transversais: <b>dependência do referencial/loss aversion</b>, <b>acessibilidade/heurísticas</b>, <b>framing/contas mentais</b>, <b>conflito de selves/auto-controlo</b>.</li>
+      <li>Metodologia: a boa psicologia é <b>testável e construtiva</b> (não um catálogo ad hoc) — resposta à crítica "com funções-utilidade que cheguem explicas tudo".</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== DEEP 3 ===== -->
+<section class="page deep" id="deep3" style="--accent:var(--p3); --accent-glow:rgba(167,139,250,.18)">
+  <div class="deep-banner"><span class="di">🔬</span><div class="dt"><small>Vai mais fundo · Parte 3</small><h2>A arquitetura da reciprocidade</h2><p>Ostrom, Fehr &amp; Schurtenberger, Kahan e Fehr et al.: o agente egoísta falha onde há interdependência — e o que o substitui é reciprocidade, normas e confiança.</p></div></div>
+
+  <h3 class="sub-head r">Ostrom (1998) <span class="tag">teoria comportamental da ação coletiva</span></h3>
+  <p class="r">O "modelo fino" (racionalidade completa, egoísta, de curto prazo) prevê bem onde a competição esmaga tudo — mas falha "embaraçosamente" nos dilemas sociais. A proposta não é abandonar a escolha racional, mas <strong>alargá-la</strong> (segunda geração), tornando a racionalidade completa <strong>um caso-limite</strong>.</p>
+  <div class="callout warn r"><div class="lbl">⚠ As 4 falhas empíricas do modelo fino</div>(1) cooperação inicial <b>alta mas sub-ótima</b> (40-60% em bens públicos); (2) o comportamento <b>não</b> segue a indução retroativa; (3) o equilíbrio de Nash <b>não prediz</b> a escolha individual; (4) os indivíduos <b>não aprendem</b> Nash com a repetição (há "pulsações", não convergência).</div>
+  <div class="grid">
+    <div class="card r"><div class="term">Comunicação face-a-face</div><div class="def">O efeito mais robusto da literatura: <b>+45 pontos</b> de cooperação (Sally). Não é a info — é compromisso mútuo, normas e <b>identidade de grupo</b>. Computorizada funciona muito menos.</div></div>
+    <div class="card r"><div class="term">Dilema de 2ª ordem</div><div class="def">Punir é um bem público custoso. Mas as pessoas <b>pagam para punir</b>; quando discutem e <b>votam</b> as sanções, atingem 93% do ótimo.</div></div>
+    <div class="card r"><div class="term">Triângulo central</div><div class="def"><b>confiança → reputação → reciprocidade</b>, mutuamente reforçador. Mas simétrico: uma quebra desencadeia <b>espiral descendente</b>.</div></div>
+    <div class="card r"><div class="term">Parâmetro δ (delta)</div><div class="def">Valor interno (+/−) somado aos custos objetivos: o <em>warm glow</em> de contribuir ou o "dever". A norma altera a função de utilidade.</div></div>
+  </div>
+  <div class="callout r"><div class="lbl">O lado negro (não romantizar)</div>A reciprocidade fechada alimenta <b>vendetas, discriminação e corrupção</b> ("favores por favores"). Por isso as instituições robustas têm quase sempre <b>sanções graduadas</b> — e o tamanho do grupo não decide sozinho: o que importa é a <b>configuração</b> (assimetria de interesses, horizonte temporal).</div>
+
+  <h3 class="sub-head r">Fehr &amp; Schurtenberger (2018) <span class="tag">fundações normativas</span></h3>
+  <p class="r">Contra a crítica "as normas explicam tudo logo nada", mostram <strong>identificação causal</strong> de normas. Uma norma social tem 3 traços: padrão normativo (o que se <em>deve</em> fazer) + definido em termos de comportamento devido + amplamente partilhado e conhecido.</p>
+  <div class="callout key r"><div class="lbl">Modelo da norma de cooperação condicional</div>U = x − γ·(c − c*)² &nbsp;se c &lt; c*; &nbsp;senão U = x. <br><span class="muted">γ ≥ 0 mede a <b>força do desejo de conformidade</b>; desviar-se <b>abaixo</b> da norma c* tem custo psíquico (quadrático), desviar-se acima não. Cooperadores condicionais imperfeitos (média menos um pouco) geram o <b>declínio</b> da cooperação ao longo do tempo.</span></div>
+  <div class="callout ex r"><div class="lbl">O achado causal decisivo</div>Introduzir <b>formação de norma</b> (declarar o que cada um deve contribuir) só tem efeito causal <b>na presença de punição</b>. Sem punição, nada muda; com punição, a cooperação sobe de forma estável. <b>Norma e punição são complementares.</b> Mas a punição entre pares pode descontrolar-se (punição anti-social) → procura de <b>enforcement centralizado</b> (justificação comportamental do Estado).</div>
+
+  <h3 class="sub-head r">Kahan <span class="tag">a lógica da reciprocidade vs Olson</span></h3>
+  <div class="tbl-wrap r"><table>
+    <thead><tr><th>Dimensão</th><th>Convencional (Olson)</th><th>Reciprocidade (Kahan)</th></tr></thead>
+    <tbody>
+      <tr><td>Atores</td><td>Maximizadores de riqueza</td><td><b class="t-hl">Reciprocadores morais/emocionais</b></td></tr>
+      <tr><td>Comportamento coletivo</td><td>Equilíbrio único (não-cooperação)</td><td><b class="t-hl">Equilíbrios múltiplos + tipping points</b></td></tr>
+      <tr><td>Política</td><td>Incentivos</td><td><b class="t-hl">Confiança</b></td></tr>
+      <tr><td>Preferências</td><td>Homogéneas</td><td><b class="t-hl">Heterogéneas</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn r"><div class="lbl">⚠ A dimensão expressiva dos incentivos (3 efeitos perversos)</div><b>Cueing</b> (o incentivo sinaliza que os outros não cooperam) · <b>Masking</b> (esconde a contribuição voluntária) · <b>Crowding-out</b> (extingue a oportunidade de mostrar disposição altruísta). Por isso os incentivos genéricos podem ser <b>auto-derrotantes</b> — mas a <b>retaliação dirigida</b> só aos free-riders persistentes <em>aumenta</em> a confiança.</div>
+  <div class="callout ex r"><div class="lbl">Evidência de campo</div><b>NIMBY (Frey &amp; Oberholzer-Gee):</b> oferecer compensação por um depósito nuclear fez a aceitação <b>cair de >50% para &lt;25%</b> — foi lida como suborno. <b>Impostos (Minnesota):</b> cartas a dizer que a maioria cumpre aumentaram a declaração; cartas a ameaçar auditorias, não. A chave do NIMBY "é a confiança".</div>
+
+  <h3 class="sub-head r">Fehr, Kirchler, Weichbold &amp; Gächter (1998) <span class="tag">normas vencem a competição</span></h3>
+  <p class="r">O teste experimental canónico do <strong>gift exchange</strong> de Akerlof. Três tratamentos isolam os efeitos:</p>
+  <div class="grid">
+    <div class="card r"><div class="term">BGE</div><div class="def">Par fixo, contrato incompleto, sem competição. Mede a <b>reciprocidade pura</b>.</div></div>
+    <div class="card r"><div class="term">GEM</div><div class="def">Contrato incompleto + leilão competitivo (excesso de trabalhadores). Mede o efeito da <b>competição</b>.</div></div>
+    <div class="card r"><div class="term">CCM</div><div class="def">Contrato <b>completo</b> (esforço fixo). Controlo: sem espaço para reciprocar.</div></div>
+  </div>
+  <div class="callout key r"><div class="lbl">Resultados</div>(1) o esforço sobe com o salário, e <b>não decai</b> com o tempo (não é só aprendizagem); (2) salários no GEM ficam <b>sempre acima</b> do CCM — as firmas <b>escolhem</b> pagar rendas porque é mais lucrativo (w=60 → lucro ≈27 vs ≈10); (3) a competição só deprime salários <b>transitoriamente</b>. Robusto a apostas altas (Rússia, 2-3 meses de rendimento).</div>
+
+  <div class="tldr r" style="--accent:var(--p3)"><h4><span class="spark">✦</span> Síntese avançada · Parte 3</h4>
+    <ul>
+      <li>Uma tese, quatro escalas: comuns (Ostrom), teoria das normas (Fehr), lei/política (Kahan), trabalho (Fehr et al.). O modelo egoísta é o <b>caso-limite</b>, não o geral.</li>
+      <li>Arquitetura comum: <b>cooperação condicional + heterogeneidade de tipos + equilíbrios múltiplos</b> com tipping points.</li>
+      <li>Reciprocidade ≠ altruísmo: a <b>punição custosa</b> é a assinatura; o altruísta puro é minoria irrelevante.</li>
+      <li>Virada de política: <b>confiança > incentivos</b>; os incentivos têm dimensão expressiva e podem fazer crowding-out (ponte para a Parte 4). Confiança e coerção são <b>complementares</b>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== DEEP 4 ===== -->
+<section class="page deep" id="deep4" style="--accent:var(--p4); --accent-glow:rgba(251,191,36,.18)">
+  <div class="deep-banner"><span class="di">🔬</span><div class="dt"><small>Vai mais fundo · Parte 4</small><h2>Quando os instrumentos reconfiguram o agente</h2><p>Gneezy &amp; Rustichini, Fehr &amp; Falk, Thaler &amp; Sunstein e Fine et al.: os instrumentos de política não atuam sobre preferências fixas — moldam-nas.</p></div></div>
+
+  <h3 class="sub-head r">Gneezy &amp; Rustichini — <span class="tag">A Fine Is a Price</span></h3>
+  <div class="callout key r"><div class="lbl">A hipótese da dissuasão falha</div>Introduzir uma penalidade <em>ceteris paribus</em> deveria reduzir o comportamento. Mas a cláusula "tudo o resto constante" <b>raramente se cumpre</b>: a multa altera a <b>informação e a perceção</b>. Creches de Haifa: 10 NIS por atraso >10 min, 6 creches de teste + 4 de controlo, 20 semanas.</div>
+  <div class="grid">
+    <div class="card r"><div class="term">Resultado</div><div class="def">Os atrasos ~<b>duplicaram</b> e estabilizaram; remover a multa <b>não reverteu</b>. (Sem diferença teste/controlo nas 4 semanas iniciais.)</div></div>
+    <div class="card r"><div class="term">Informação</div><div class="def">A multa revela que "o pior que acontece são 10 NIS" (contrato incompleto); ao remover, continuam sem antecipar nada pior.</div></div>
+    <div class="card r"><div class="term">Normas (3 encadeadas)</div><div class="def">Dádiva → preço; "a fine is a price"; "<b>once a commodity, always a commodity</b>" (explica a persistência: a preço 0, compra-se ainda mais).</div></div>
+    <div class="card r"><div class="term">No reward vs zero reward</div><div class="def">Pagar <b>pouco</b> (0,10 NIS/resposta) deu pior desempenho que <b>não mencionar</b> dinheiro — mencionar paga muda o contrato de favor para mercado.</div></div>
+  </div>
+
+  <h3 class="sub-head r">Fehr &amp; Falk — <span class="tag">Psychological Foundations of Incentives</span></h3>
+  <p class="r">Três motivos não-pecuniários moldam o comportamento e <strong>interagem</strong> com os incentivos: reciprocidade, aprovação social e prazer intrínseco. O ponto mais fino:</p>
+  <div class="callout warn r"><div class="lbl">⚠ Punir ex-ante sai pela culatra; ex-post não</div>Comprometer-se a <b>multar</b> (ex-ante) <b>reduz</b> o esforço — sinaliza desconfiança, ofende quem cooperaria. Punir/despedir <b>ex-post</b> <b>aumenta</b>-o — disciplina os shirkers sem rotular os cooperadores. E o <b>mesmo</b> incentivo como <b>bónus</b> (carrot) gera mais cooperação que como <b>multa</b> (stick): "tirar" é mais hostil que "dar".</div>
+  <div class="callout ex r"><div class="lbl">Equilíbrios múltiplos de cumprimento (Fig. 6)</div>O cumprimento de cada um cresce com o cumprimento médio dos outros → equilíbrio alto (C), instável (B), baixo (A). A multa <b>baixa os custos de desaprovação</b> → quebra o equilíbrio C e desliza para A'. <b>Nuance:</b> Fehr &amp; Falk são <b>céticos</b> quanto ao crowding-out de motivação intrínseca à la Frey — distinguem-no de reciprocidade negativa e "efeito de desapontamento", e lembram que o que importa é a <b>soma total</b> dos efeitos.</div>
+
+  <h3 class="sub-head r">Thaler &amp; Sunstein — <span class="tag">Libertarian Paternalism</span></h3>
+  <div class="callout key r"><div class="lbl">Porque o paternalismo é inevitável</div>O antipaternalismo assenta numa <b>suposição falsa</b> (as pessoas escolhem quase sempre o seu melhor interesse — "ou tautológico, ou falso") e em <b>2 equívocos</b>: (1) que há alternativa ao paternalismo (alguém <b>tem</b> de escolher a ordem da cantina/o default); (2) que paternalismo = coação (não é). Logo "a posição antipaternalista é <b>incoerente</b>".</div>
+  <div class="grid">
+    <div class="card r"><div class="term">Defaults pegajosos</div><div class="def">Inscrição automática: 49% → <b>86%</b> (Madrian &amp; Shea). Inércia + legitimidade implícita do default.</div></div>
+    <div class="card r"><div class="term">Save More Tomorrow</div><div class="def">Comprometer aumentos <b>futuros</b> da poupança: 3,5% → 11,6%. "Paternalismo libertário em ação."</div></div>
+    <div class="card r"><div class="term">3 métodos</div><div class="def">Market-mimicking · forçar escolha · minimizar opt-outs. Quando viável, análise custo-benefício do desenho.</div></div>
+  </div>
+
+  <h3 class="sub-head r">Fine et al. — <span class="tag">Nudging or Fudging (a crítica)</span></h3>
+  <div class="callout warn r"><div class="lbl">⚠ A crítica de economia política</div>O nudge é <b>"neoclássico plus"</b> (imperialismo económico): o indivíduo otimizador + algo. Ao localizar o problema na <b>cognição individual descontextualizada</b>, <b>despolitiza</b> e <b>culpa o pobre</b> — ignora poder, classe, e as causas estruturais da pobreza. Mantém o <b>mercado como default</b> sob aparência de neutralidade técnica.</div>
+  <div class="quote r">Quanto mais empurramos (<em>nudge</em>), menos precisamos de nos mexer (<em>budge</em>) face às desigualdades crescentes.<cite>Fine, Johnston, Santos &amp; Van Waeyenberge (2016)</cite></div>
+  <p class="muted r">Evidência: <strong>cash transfers</strong> contra o VIH (Malawi, Tanzânia, Lesoto) — resultados imediatos mistos, efeitos de longo prazo duvidosos, e <strong>efeitos perniciosos</strong> (cimentam estigma, mercantilizam a saúde).</p>
+
+  <div class="tldr r" style="--accent:var(--p4)"><h4><span class="spark">✦</span> Síntese avançada · Parte 4</h4>
+    <ul>
+      <li>Descoberta central: os instrumentos de política <b>reconfiguram</b> preferências, perceções e normas — não atuam sobre dados fixos.</li>
+      <li><b>4.2</b> Incentivos têm <b>função expressiva</b>; crowding-out + "a fine is a price" + histerese (não revertem). O cumprimento voluntário é barato mas <b>frágil</b>.</li>
+      <li><b>4.3</b> Dialética completa: Thaler &amp; Sunstein (defesa construtivista do nudge) vs Fine et al. (crítica estruturalista). A pergunta "quem desenha, com que fim, quão fundo" é <b>economia política</b>, não técnica.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== DEEP 5 ===== -->
+<section class="page deep" id="deep5" style="--accent:var(--p5); --accent-glow:rgba(52,211,153,.18)">
+  <div class="deep-banner"><span class="di">🔬</span><div class="dt"><small>Vai mais fundo · Parte 5</small><h2>A fronteira e o balanço</h2><p>Camerer/Loewenstein/Prelec, Thaler e Altman: três respostas à pergunta "o que fazer com o Homo economicus?".</p></div></div>
+
+  <h3 class="sub-head r">Camerer, Loewenstein &amp; Prelec — <span class="tag">Neuroeconomics</span></h3>
+  <p class="r">A neurociência torna possível <strong>medir diretamente</strong> pensamentos e sentimentos — o que a preferência revelada tinha tornado desnecessário. Duas inadequações do modelo padrão: muito do cérebro é <strong>automático</strong> (não obedece aos axiomas) e está sob influência pervasiva do <strong>afeto</strong>.</p>
+  <div class="quote r">A metáfora platónica da mente como auriga a conduzir dois cavalos está certa — exceto que <em>a cognição é um pónei esperto, e a emoção um grande elefante</em>.<cite>Camerer, Loewenstein &amp; Prelec (2005), p.38</cite></div>
+  <div class="grid">
+    <div class="card r"><div class="term">Automático é o default</div><div class="def">Os processos automáticos "andam sempre"; os controlados só ligam quando <b>interrompidos</b>. A economia capta sobretudo o quadrante I (controlado-cognitivo).</div></div>
+    <div class="card r"><div class="term">Mentalizing</div><div class="def">Inferir crenças/intenções alheias é uma <b>capacidade especial e separável</b> (autismo, neurónios-espelho) — luz amarela sobre o pressuposto de equilíbrio bayesiano.</div></div>
+    <div class="card r"><div class="term">Construtos errados?</div><div class="def">"Preferência ao risco/tempo" e "altruísmo" mal se correlacionam <b>entre situações</b> — talvez tenhamos "o conjunto errado de construtos".</div></div>
+    <div class="card r"><div class="term">Liking ≠ Wanting</div><div class="def">Berridge: pode <b>querer-se sem gostar</b> (toxicodependência). Se satisfazer um desejo não dá prazer, <b>a economia do bem-estar padrão desmorona-se</b>.</div></div>
+  </div>
+  <div class="callout r"><div class="lbl">Homeostasia</div>Não evoluímos para ser felizes, mas para sobreviver. O prazer é um <b>sinal informacional</b> ("homeostatic cue"), não o objetivo — e responde a <b>mudanças</b>, não a níveis (eco da loss aversion e da felicidade-por-variações). Programa: <b>incremental</b> (β-δ) ou <b>radical</b> (modelos de múltiplos sistemas).</div>
+
+  <h3 class="sub-head r">Thaler (2016) — <span class="tag">Past, Present, and Future</span></h3>
+  <p class="r"><strong>Econs vs Humans.</strong> Não é uma revolução — é o <strong>regresso</strong> a Adam Smith (que já descreveu sobreconfiança, aversão à perda e present bias). As defesas do homo economicus ("explainawaytions") foram todas refutadas:</p>
+  <div class="grid">
+    <div class="card r"><div class="term">"As if"</div><div class="def">"Truque verbal": Friedman escolhe um perito; a teoria deve descrever <b>todos</b>, e mesmo peritos falham no difícil.</div></div>
+    <div class="card r"><div class="term">Erros anulam-se?</div><div class="def">Não — são <b>sistemáticos</b> (Kahneman &amp; Tversky). Pode induzir-se a maioria a escolher uma opção <b>dominada</b> só com framing.</div></div>
+    <div class="card r"><div class="term">Incentivos/aprendizagem</div><div class="def">"Puxam em direções opostas": altas apostas = decisões <b>raras</b> = sem aprendizagem (carreira, casa, reforma).</div></div>
+    <div class="card r"><div class="term">Invisible handwave</div><div class="def">"É mais fácil <b>dar resposta</b> aos vieses do que erradicá-los." Os mercados exacerbam-nos (ginásios; crise hipotecária).</div></div>
+  </div>
+  <div class="callout ex r"><div class="lbl">O preço pode estar errado (mercados financeiros)</div>Fundo <b>CUBA</b>: com o anúncio de Obama saltou para um <b>prémio de 70%</b> sobre o valor dos ativos (que mal mexeram), durante meses. Se os mercados mais propensos à eficiência erram por <b>um fator de 2</b>, que confiança nos outros? → <b>SIFs</b> (fatores supostamente irrelevantes) e <b>economia baseada em evidência</b>. Profecia: a "economia comportamental" acabará por <b>desaparecer</b> (toda a economia será tão comportamental quanto o tema exigir).</div>
+
+  <h3 class="sub-head r">Altman (2021) — <span class="tag">o contraponto crítico interno</span></h3>
+  <div class="callout warn r"><div class="lbl">⚠ A crítica ao benchmark</div>O defeito da economia comportamental dominante (heurísticas-e-enviesamentos) é continuar a usar as <b>normas neoclássicas como referencial</b> do ótimo, classificando os desvios como erros <b>hardwired</b>. Com Simon: os agentes são <b>"smart"</b> dentro dos limites do seu ambiente — o que parece enviesamento pode ser racional/eficiente, ou resultar do <b>ambiente, informação, instituições e poder</b>.</div>
+  <div class="callout r"><div class="lbl">Implicação normativa (contra o nudge top-down)</div>Se os agentes são <b>smart</b>, o nudging por "choice architects" sacrifica liberdade sem justificação. A alternativa: <b>melhorar o ambiente e as capacidades</b> de decisão (ex.: educar e empoderar reduz a fertilidade <b>sem nudging</b>), maximizando a liberdade. Reabilita a <b>firma</b>, o <b>poder</b> e os <b>modelos mentais</b>, ausentes da economia comportamental dominante.</div>
+
+  <div class="tldr r" style="--accent:var(--p5)"><h4><span class="spark">✦</span> Síntese avançada · Parte 5</h4>
+    <ul>
+      <li>Três respostas: <b>Camerer et al.</b> (novos micro-fundamentos via cérebro) · <b>Thaler</b> (engenharia baseada em evidência; Econs+SIFs) · <b>Altman</b> (mudar o referencial; smart agent de Simon).</li>
+      <li>Convergem em 3 pontos: rejeição do <b>"as if"</b>; <b>economia baseada em evidência</b>; <b>regresso às raízes</b> (Smith, Simon, Bentham).</li>
+      <li>O nó quente é <b>normativo</b>: se liking ≠ wanting, o bem-estar pela escolha revelada cai — Thaler usa-o para o nudge, Altman vira-o contra o nudge. A batalha empírica está ganha (os Econs não existem); a <b>teórica e normativa</b>, em aberto.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== GLOSSARY ===== -->
+<section id="glossario" class="page part" style="--accent:var(--p3); --accent-glow:rgba(167,139,250,.18)">
+  <div class="part-head"><span class="part-num">⌕</span><h2>Glossário</h2></div>
+  <div class="accent-bar"></div>
+  <p class="muted r">Os termos que têm de estar na ponta da língua. Escreve para filtrar.</p>
+  <div class="gsearch r">
+    <span class="si">⌕</span>
+    <input type="text" id="gq" placeholder="Pesquisar termo…  (ex.: satisficing, nudge, reciprocidade)" oninput="glossSearch(this.value)" autocomplete="off">
+    <div class="gcount" id="gcount">—</div>
+  </div>
+  <p class="muted r" style="margin-top:-6px">Clica num termo para abrir a ficha — resumo, explicação a fundo e onde o rever no site.</p>
+  <div id="glist" class="gtiles">
+    <div class="gtile" style="--gc:var(--p2)" data-k="racionalidade limitada bounded rationality simon satisficing" data-term="Racionalidade limitada" data-partlabel="P2" data-pc="var(--p2)" data-goto="p2" data-gotolabel="Parte 2 · Racionalidade limitada" data-summary="Comportamento racional que reconhece os limites de informação e de cálculo dos indivíduos reais (Simon, 1955)." data-detail="Simon redefine a racionalidade em função do <b>organismo E do ambiente</b>: os limites cognitivos são parte do problema, não ruído. Em vez de maximizar, o agente <b>satisfaz</b> — procura uma opção acima de um nível de aspiração. É a fundação de toda a Parte 2."><div class="gt-term">Racionalidade limitada</div><span class="gt-part">P2 · 2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="satisficing satisfazer nivel de aspiracao alternativa suficientemente boa" data-term="Satisficing" data-partlabel="P2" data-pc="var(--p2)" data-goto="p2" data-gotolabel="Parte 2 · Racionalidade limitada" data-summary="Procurar uma alternativa &quot;suficientemente boa&quot; (que atinge o nível de aspiração k) em vez da ótima." data-detail="É um <b>procedimento</b>, não um segundo-melhor: procura-se até encontrar algo satisfatório e pára-se. O nível de aspiração k é <b>dinâmico</b> — sobe se for fácil encontrar boas opções, desce se for difícil — o que garante quase sempre uma solução."><div class="gt-term">Satisficing</div><span class="gt-part">P2 · 2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="racionalidade ecologica gigerenzer menos e mais heuristicas take the best mundos pequenos" data-term="Racionalidade ecológica" data-partlabel="P2" data-pc="var(--p2)" data-goto="p2" data-gotolabel="Parte 2 · Racionalidade limitada" data-summary="Gigerenzer: heurísticas simples adaptadas ao contexto podem prever melhor — &quot;menos pode ser mais&quot;." data-detail="A racionalidade axiomática só é normativa em &quot;mundos pequenos&quot; (estáveis). Em incerteza, regras frugais (take-the-best) podem bater modelos complexos — é o dilema <b>enviesamento-variância</b>: viés moderado + baixa variância > viés-zero + variância alta."><div class="gt-term">Racionalidade ecológica</div><span class="gt-part">P2 · 2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="heuristica atalho mental disponibilidade representatividade ancoragem afetiva acessibilidade" data-term="Heurística" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="Atalho mental que simplifica a decisão; pode gerar erros sistemáticos (disponibilidade, representatividade, ancoragem, afetiva)." data-detail="Kahneman unifica-as como <b>substituição de atributo</b>: responde-se a uma pergunta mais fácil que a colocada, guiados pelo que é mais <b>acessível</b> à mente (System 1). Os erros não são aleatórios — são previsíveis e sistemáticos."><div class="gt-term">Heurística</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="ancoragem anchoring ponto inicial ajuste" data-term="Ancoragem" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="Partir de um valor inicial (âncora) e ajustá-lo de forma insuficiente; a âncora pode ser irrelevante." data-detail="Tversky &amp; Kahneman: mesmo uma âncora aleatória (roda da fortuna) enviesa estimativas. Nos mercados, a âncora mais provável é o <b>preço mais recentemente recordado</b> — por isso os preços mudam pouco de dia para dia (liga a 2.3)."><div class="gt-term">Ancoragem</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="prospect theory kahneman tversky ganhos perdas ponto de referencia" data-term="Prospect Theory" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="Kahneman &amp; Tversky: avaliam-se resultados como ganhos/perdas face a uma referência, com aversão à perda." data-detail="O &quot;erro de Bernoulli&quot; é avaliar <b>estados de riqueza</b> em vez de <b>mudanças</b>. A função-valor é côncava nos ganhos (aversão ao risco), convexa nas perdas (procura do risco) e mais inclinada nas perdas (loss aversion, fator ≈2)."><div class="gt-term">Prospect Theory</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="aversao a perda loss aversion perdas pesam mais" data-term="Aversão à perda" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="As perdas pesam mais do que ganhos equivalentes (a função-valor é mais inclinada nas perdas)." data-detail="É o motor de muitas anomalias: efeito dotação, status-quo bias, aversão a realizar perdas em bolsa. Liga ao tempo (2.2): adiar um recebimento é sentido como perda, daí o prémio de adiamento ser o dobro do custo de antecipação."><div class="gt-term">Aversão à perda</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="framing enquadramento apresentacao do problema invariancia" data-term="Framing (enquadramento)" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="A forma de apresentar o problema muda a escolha, mesmo com conteúdo idêntico (ex.: vidas salvas vs perdidas)." data-detail="Viola a <b>invariância/extensionalidade</b>: descrições logicamente equivalentes deviam dar a mesma escolha. A &quot;doença asiática&quot; é o caso clássico; os <b>defaults</b> são framing com efeitos enormes (doação de órgãos: 18% vs 97% conforme opt-in/opt-out)."><div class="gt-term">Framing</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="contabilidade mental mental accounting contas" data-term="Contabilidade mental" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="Tratar dinheiro de forma diferente conforme a &quot;conta&quot; mental a que pertence." data-detail="O bilhete perdido vs a nota de 20€ perdida levam a decisões opostas porque entram em &quot;contas&quot; diferentes. Explica também o efeito magnitude no tempo: pequenos ganhos vão para a &quot;conta-corrente&quot; (consumidos), grandes para a &quot;poupança&quot;."><div class="gt-term">Contabilidade mental</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="efeito dotacao endowment effect vender comprar" data-term="Efeito dotação" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="Exige-se mais para vender algo que se possui do que se pagaria para o comprar (≈2:1)." data-detail="Deriva da aversão à perda: largar o que é meu é uma perda. Gera <b>curvas de indiferença que se intersetam</b> (violação da microeconomia padrão). Traders experientes mostram menos efeito — aprende-se a valorizar pelo longo prazo (List)."><div class="gt-term">Efeito dotação</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="custos afundados sunk costs ignorar" data-term="Custos afundados" data-partlabel="P2" data-pc="var(--p2)" data-goto="p21" data-gotolabel="2.1 Consumo e investimento" data-summary="Custos irrecuperáveis que o modelo racional manda ignorar, mas que influenciam a decisão (tratados como perda)." data-detail="Ir ao jogo na tempestade de neve &quot;porque já paguei o bilhete&quot; é a falácia: o dinheiro já foi, a decisão devia olhar só para o futuro. Tratamos o custo já feito como uma perda em aberto, e arriscamos para a &quot;recuperar&quot;."><div class="gt-term">Custos afundados</div><span class="gt-part">P2 · 2.1</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="escolha intertemporal utilidade descontada taxa de desconto delta" data-term="Utilidade descontada" data-partlabel="P2" data-pc="var(--p2)" data-goto="p22" data-gotolabel="2.2 Poupança" data-summary="Modelo da escolha intertemporal com taxa de desconto δ constante; benchmark que as anomalias contrariam." data-detail="U = Σ D(k)·u(c), com D(k)=1/(1+δ)ᵏ. Previsão forte: deveríamos descontar tudo à taxa de juro de mercado, de forma constante e consistente. A evidência mostra taxas que vão de negativas a centenas de % — o modelo falha."><div class="gt-term">Utilidade descontada</div><span class="gt-part">P2 · 2.2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="preferencias hiperbolicas desconto hiperbolico inconsistencia temporal inversao de preferencia" data-term="Preferências hiperbólicas" data-partlabel="P2" data-pc="var(--p2)" data-goto="p22" data-gotolabel="2.2 Poupança" data-summary="Taxa de desconto que decresce com o horizonte → preferências inconsistentes no tempo e inversão de preferência." data-detail="As curvas de valor de uma recompensa pequena-cedo e grande-tarde <b>cruzam-se</b>: ao longe prefiro a grande, mas quando a pequena fica perto inverto. É a raiz da procrastinação e do auto-controlo. Formaliza-se como β-δ (Laibson). ⭐ saiu na frequência."><div class="gt-term">Preferências hiperbólicas</div><span class="gt-part">P2 · 2.2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="weakness of will auto controlo forca de vontade" data-term="Weakness of will" data-partlabel="P2" data-pc="var(--p2)" data-goto="p22" data-gotolabel="2.2 Poupança" data-summary="Falta de auto-controlo: ceder à gratificação imediata contra os objetivos de longo prazo." data-detail="&quot;De manhã juramos ir cedo para a cama; à noite ficamos acordados até às 3h&quot; (Loewenstein &amp; Thaler). Modela-se como luta entre múltiplos <b>selves</b> com preferências conflituantes (planner vs doer)."><div class="gt-term">Weakness of will</div><span class="gt-part">P2 · 2.2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="procrastinacao adiar" data-term="Procrastinação" data-partlabel="P2" data-pc="var(--p2)" data-goto="p22" data-gotolabel="2.2 Poupança" data-summary="Adiar por saliência excessiva dos custos/benefícios presentes; não revela a preferência verdadeira." data-detail="O ponto importante: o comportamento <b>não pode ser lido como manifestação das preferências</b> — a pessoa preferia ter agido de outro modo. Por isso o paternalismo libertário (4.3) ganha espaço."><div class="gt-term">Procrastinação</div><span class="gt-part">P2 · 2.2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="estrategia de compromisso commitment device amarrar" data-term="Estratégia de compromisso" data-partlabel="P2" data-pc="var(--p2)" data-goto="p22" data-gotolabel="2.2 Poupança" data-summary="Amarrar-se ao plano futuro (poupança com penalização, riqueza ilíquida) para vencer o auto-controlo." data-detail="Os &quot;Christmas clubs&quot; (contas inconvenientes, ilíquidas, sem juro) eram procurados <b>precisamente</b> por isso. O agente reconhece a sua fraqueza e desenha o ambiente contra si próprio — levanta a questão: deve o Estado fazê-lo por nós? (4.3)."><div class="gt-term">Estratégia de compromisso</div><span class="gt-part">P2 · 2.2</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="argumento como se as if friedman mercado racional" data-term="Argumento &quot;como se&quot;" data-partlabel="P2" data-pc="var(--p2)" data-goto="p23" data-gotolabel="2.3 Mercados financeiros" data-summary="Friedman: os agentes agem &quot;como se&quot; maximizassem; os pressupostos seriam irrelevantes face às previsões." data-detail="Thaler chama-lhe &quot;truque verbal&quot;: Friedman escolhe um <b>perito</b> (jogador de bilhar), mas a teoria deve descrever todos; e mesmo peritos falham em problemas difíceis. Altman acrescenta: ignorar o realismo dos pressupostos gera análise causal errada."><div class="gt-term">Argumento &quot;como se&quot;</div><span class="gt-part">P2 · 2.3</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="especulacao incerteza liquidez keynes concurso de beleza" data-term="Especulação (Keynes)" data-partlabel="P2" data-pc="var(--p2)" data-goto="p23" data-gotolabel="2.3 Mercados financeiros" data-summary="Ganho baseado na opinião média sobre a opinião dos outros (&quot;concurso de beleza&quot;), sob incerteza e liquidez." data-detail="A atitude racional não é seguir a própria opinião, mas <b>antecipar a opinião maioritária</b>. Por isso o mercado é &quot;irracional porque os agentes são racionais&quot;: o ganho de curto prazo + liquidez gera dinâmicas instáveis."><div class="gt-term">Especulação (Keynes)</div><span class="gt-part">P2 · 2.3</span></div>
+    <div class="gtile" style="--gc:var(--p2)" data-k="bolha especulativa feedback amplificacao mimetismo shiller" data-term="Bolha especulativa" data-partlabel="P2" data-pc="var(--p2)" data-goto="p23" data-gotolabel="2.3 Mercados financeiros" data-summary="Subida insustentável por amplificação de feedback e mimetismo autorrealizador, desligada dos fundamentais." data-detail="Shiller: âncoras quantitativas (preço recordado) + âncoras morais/narrativas (&quot;histórias&quot; para justificar comprar) + feedback expectacional (representatividade × conservadorismo). As âncoras dão estabilidade, mas soltam-se subitamente → crash."><div class="gt-term">Bolha especulativa</div><span class="gt-part">P2 · 2.3</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="dilema social free riding bem publico boleia" data-term="Dilema social" data-partlabel="P3" data-pc="var(--p3)" data-goto="p31" data-gotolabel="3.1 Falhas de mercado e dilemas" data-summary="O objetivo comum exige contribuição, mas individualmente compensa o free-riding (usufruir sem contribuir)." data-detail="O equilíbrio de Nash é Pareto-inferior: há uma alternativa melhor para todos que a escolha isolada não alcança. A diferença é o <b>dividendo do cooperador</b> (Ostrom). Bens públicos, comuns e cumprimento de normas são casos do mesmo problema."><div class="gt-term">Dilema social</div><span class="gt-part">P3 · 3.1</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="dilema do prisioneiro estrategia dominante pareto" data-term="Dilema do prisioneiro" data-partlabel="P3" data-pc="var(--p3)" data-goto="p31" data-gotolabel="3.1 Falhas de mercado e dilemas" data-summary="A não-cooperação é estratégia dominante; o resultado coletivo é pior para ambos (não-ótimo de Pareto)." data-detail="A versão sequencial é o <b>jogo de confiança</b> (pagamentos t>c>d>s). A previsão de não-cooperação contrasta com a evidência: nos jogos de bens públicos as pessoas contribuem 40-60% e punem free-riders — cooperação condicional."><div class="gt-term">Dilema do prisioneiro</div><span class="gt-part">P3 · 3.1</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="tragedia dos comuns hardin recurso comum sobre exploracao ostrom wade" data-term="Tragédia dos comuns" data-partlabel="P3" data-pc="var(--p3)" data-goto="p31" data-gotolabel="3.1 Falhas de mercado e dilemas" data-summary="Hardin: benefício privado vs custo partilhado leva à sobre-exploração do recurso comum." data-detail="Hardin propunha Estado ou privatização. Ostrom e Wade mostram uma <b>terceira via</b>: comunidades autorregulam-se com regras próprias, monitorização e <b>sanções graduadas</b> — sob certas condições (grupo pequeno, comunicação, identidade)."><div class="gt-term">Tragédia dos comuns</div><span class="gt-part">P3 · 3.1</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="cooperacao condicional reciprocidade punicao bens publicos" data-term="Cooperação condicional" data-partlabel="P3" data-pc="var(--p3)" data-goto="p31" data-gotolabel="3.1 Falhas de mercado e dilemas" data-summary="Coopera-se na expectativa de que os outros cooperem; pune-se quem desvia, mesmo com custo próprio." data-detail="É o padrão central da Parte 3 (~50% condicionais, ~30% free-riders, Fehr). Como depende de <b>crenças sobre os outros</b>, gera equilíbrios múltiplos e tipping points: pequenas mudanças desencadeiam cascatas de (não-)cooperação."><div class="gt-term">Cooperação condicional</div><span class="gt-part">P3 · 3.1</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="reciprocidade positiva negativa retribuir punir reciprocador forte" data-term="Reciprocidade" data-partlabel="P3" data-pc="var(--p3)" data-goto="p32" data-gotolabel="3.2 Preferências e normas sociais" data-summary="Resposta condicional: retribuir a cooperação (positiva) e punir a deserção (negativa)." data-detail="O <b>reciprocador forte</b> (Kahan) condiciona a contribuição à dos outros mesmo em trocas anónimas e fugazes — ao contrário do tit-for-tat estratégico. A punição custosa de free-riders é a sua assinatura e o que a distingue do altruísmo."><div class="gt-term">Reciprocidade</div><span class="gt-part">P3 · 3.2</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="altruismo incondicional warm glow" data-term="Altruísmo" data-partlabel="P3" data-pc="var(--p3)" data-goto="p32" data-gotolabel="3.2 Preferências e normas sociais" data-summary="Preocupação incondicional com o bem-estar do outro (≠ reciprocidade, que é condicional)." data-detail="O altruísta puro é minoria irrelevante para o equilíbrio. A distinção é decisiva (saiu na frequência): o altruísmo <b>não</b> explica a punição custosa nem a rejeição no ultimato — só a reciprocidade negativa explica."><div class="gt-term">Altruísmo</div><span class="gt-part">P3 · 3.2</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="aversao a desigualdade fehr schmidt inveja culpa alfa beta" data-term="Aversão à desigualdade" data-partlabel="P3" data-pc="var(--p3)" data-goto="p32" data-gotolabel="3.2 Preferências e normas sociais" data-summary="Fehr &amp; Schmidt: desutilidade de payoffs desiguais — maior em desvantagem (α inveja) que em vantagem (β culpa)." data-detail="U = π − α·(desvantagem) − β·(vantagem), com α≥β≥0. É uma das duas explicações do gift exchange (gain-sharing): os trabalhadores sentem-se obrigados a partilhar o ganho de um salário alto."><div class="gt-term">Aversão à desigualdade</div><span class="gt-part">P3 · 3.2</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="preferencias endogenas situacao transmissao cultural" data-term="Preferências endógenas" data-partlabel="P3" data-pc="var(--p3)" data-goto="p32" data-gotolabel="3.2 Preferências e normas sociais" data-summary="As preferências dependem do contexto e da cultura e podem mudar (ex.: o nome dado ao jogo altera o comportamento)." data-detail="Chamar &quot;Exchange game&quot; em vez de &quot;Ultimatum game&quot; baixa ofertas e rejeições. As intenções também contam (McCabe): o mesmo resultado gera respostas diferentes consoante a intenção revelada — mentalizing."><div class="gt-term">Preferências endógenas</div><span class="gt-part">P3 · 3.2</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="contratos incompletos oportunismo verificar" data-term="Contratos incompletos" data-partlabel="P3" data-pc="var(--p3)" data-goto="p33" data-gotolabel="3.3 Contratos incompletos" data-summary="Contratos que não especificam tudo; abrem espaço a oportunismo mas também a reciprocidade." data-detail="É a <b>condição necessária</b> para a reciprocidade ter mordida económica: sem espaço discricionário (esforço não-exigível) não há &quot;dádiva&quot; a retribuir. Os agentes chegam a <b>preferir</b> contratos incompletos (88%, Fehr-Klein-Schmidt)."><div class="gt-term">Contratos incompletos</div><span class="gt-part">P3 · 3.3</span></div>
+    <div class="gtile" style="--gc:var(--p3)" data-k="gift exchange troca de dadivas akerlof salario esforco" data-term="Gift exchange" data-partlabel="P3" data-pc="var(--p3)" data-goto="p33" data-gotolabel="3.3 Contratos incompletos" data-summary="Troca de dádivas: salário acima do mínimo retribuído com esforço acima do mínimo (Akerlof)." data-detail="Fehr et al. (1998): a norma de reciprocidade gera salários <b>persistentemente acima</b> do nível competitivo — a competição entre trabalhadores não os remove. Monitorizar pode <b>destruir</b> a reciprocidade. ⭐ saiu na frequência."><div class="gt-term">Gift exchange</div><span class="gt-part">P3 · 3.3</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="instituicoes veblen north hodgson regras do jogo habitos" data-term="Instituições" data-partlabel="P4" data-pc="var(--p4)" data-goto="p41" data-gotolabel="4.1 O papel das instituições" data-summary="Regras/hábitos duradouros que organizam a interação e moldam as preferências (Veblen, North, Hodgson)." data-detail="O ponto comportamental: as instituições não só <b>constrangem</b> — <b>constituem</b> os agentes, moldando preferências, perceções e o sentido moral do comportamento. Por isso o desenho institucional nunca é um exercício técnico neutro."><div class="gt-term">Instituições</div><span class="gt-part">P4 · 4.1</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="incentivo agente principal incentive compatible monetario" data-term="Incentivo" data-partlabel="P4" data-pc="var(--p4)" data-goto="p42" data-gotolabel="4.2 Incentivos vs normas" data-summary="Alteração do enquadramento externo (prémio/penalização) que muda o cálculo custo-benefício do agente." data-detail="No modelo agente-principal, contratos &quot;incentive-compatible&quot; alinham o agente egoísta com o principal. Mas os incentivos têm uma <b>dimensão expressiva</b>: comunicam confiança/desconfiança e podem sair pela culatra."><div class="gt-term">Incentivo</div><span class="gt-part">P4 · 4.2</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="a fine is a price multa preco creches haifa gneezy rustichini" data-term="&quot;A fine is a price&quot;" data-partlabel="P4" data-pc="var(--p4)" data-goto="p42" data-gotolabel="4.2 Incentivos vs normas" data-summary="Gneezy &amp; Rustichini: a multa transformou a norma social num preço e aumentou os atrasos (creches de Haifa)." data-detail="A multa <b>revela informação</b> (&quot;o pior que acontece são 10 NIS&quot;) e transforma uma dádiva moral numa transação de mercado. E não reverte ao remover: &quot;once a commodity, always a commodity&quot;. Fehr &amp; Falk lê-o como quebra de equilíbrio de norma."><div class="gt-term">&quot;A fine is a price&quot;</div><span class="gt-part">P4 · 4.2</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="motivacao intrinseca extrinseca deci" data-term="Motivação intrínseca" data-partlabel="P4" data-pc="var(--p4)" data-goto="p42" data-gotolabel="4.2 Incentivos vs normas" data-summary="Fazer a atividade porque ela própria é a recompensa (Deci); oposta à extrínseca (prémios/sanções)." data-detail="Deci (1971): pagar para resolver puzzles reduziu o tempo dedicado depois (sem pagamento). A recompensa percebida como <b>controladora</b> mina autonomia e competência (teoria da avaliação cognitiva)."><div class="gt-term">Motivação intrínseca</div><span class="gt-part">P4 · 4.2</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="crowding out frey erosao motivacao incentivos" data-term="Crowding-out" data-partlabel="P4" data-pc="var(--p4)" data-goto="p42" data-gotolabel="4.2 Incentivos vs normas" data-summary="Frey: o incentivo monetário pode erodir a motivação intrínseca, com efeitos perversos." data-detail="Substituir relações não-monetárias por monetárias fere a autoestima e a reciprocidade. Pagar 1% a voluntários reduziu donativos em 36% (Gneezy-Rustichini). Arrow: comprar confiança faz duvidar do que se adquiriu."><div class="gt-term">Crowding-out</div><span class="gt-part">P4 · 4.2</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="paternalismo libertario thaler sunstein sem coacao bem estar" data-term="Paternalismo libertário" data-partlabel="P4" data-pc="var(--p4)" data-goto="p43" data-gotolabel="4.3 Paternalismo vs liberdade" data-summary="Thaler &amp; Sunstein: influenciar a escolha para melhorar o bem-estar, sem coação (preserva a liberdade)." data-detail="A premissa antipaternalista (cada um sabe o seu melhor interesse) é &quot;ou tautológica ou falsa&quot;. E como <b>alguém</b> tem de escolher o default, a posição antipaternalista é incoerente — mais vale desenhar bem (Save More Tomorrow)."><div class="gt-term">Paternalismo libertário</div><span class="gt-part">P4 · 4.3</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="paternalismo assimetrico camerer beneficio quem erra" data-term="Paternalismo assimétrico" data-partlabel="P4" data-pc="var(--p4)" data-goto="p43" data-gotolabel="4.3 Paternalismo vs liberdade" data-summary="Camerer et al.: grande benefício para quem erra, custo quase nulo para quem é racional." data-detail="É o critério que torna o nudge defensável: ajuda os que decidem mal (informação incompleta, limites de cálculo, falta de força de vontade) sem prejudicar quem decide bem. Citado pelo próprio Thaler &amp; Sunstein."><div class="gt-term">Paternalismo assimétrico</div><span class="gt-part">P4 · 4.3</span></div>
+    <div class="gtile" style="--gc:var(--p4)" data-k="nudge arquitetura da escolha default opt out empurrao" data-term="Nudge / arquitetura da escolha" data-partlabel="P4" data-pc="var(--p4)" data-goto="p43" data-gotolabel="4.3 Paternalismo vs liberdade" data-summary="Desenhar o contexto de escolha (defaults, saliência) para orientar sem proibir; ex.: inscrição automática (opt-out)." data-detail="A inscrição automática elevou a participação em planos de 49% para 86% (Madrian &amp; Shea) — um &quot;fator supostamente irrelevante&quot;. Crítica de Fine et al.: foca o micro e <b>despolitiza</b>, ignorando causas estruturais e culpando o indivíduo."><div class="gt-term">Nudge</div><span class="gt-part">P4 · 4.3</span></div>
+    <div class="gtile" style="--gc:var(--p5)" data-k="neuroeconomia caixa negra cerebro camerer loewenstein prelec" data-term="Neuroeconomia" data-partlabel="P5" data-pc="var(--p5)" data-goto="p5" data-gotolabel="Parte 5 · Recentes" data-summary="Usar a neurociência para &quot;abrir a caixa negra&quot; da decisão (cognitivo/afetivo × controlado/automático)." data-detail="Camerer, Loewenstein &amp; Prelec: a cognição só age <b>via</b> o afeto (&quot;a cognição é um pónei esperto; a emoção, um elefante&quot;). Mostra que &quot;preferência ao risco/tempo&quot; mal se correlacionam entre domínios — talvez as construções estejam erradas."><div class="gt-term">Neuroeconomia</div><span class="gt-part">P5 · 5</span></div>
+    <div class="gtile" style="--gc:var(--p5)" data-k="liking wanting prazer motivacao bem estar" data-term="Liking vs Wanting" data-partlabel="P5" data-pc="var(--p5)" data-goto="p5" data-gotolabel="Parte 5 · Recentes" data-summary="Sistemas distintos de prazer (liking) e motivação (wanting) que podem divergir — desafio ao bem-estar padrão." data-detail="Berridge: é possível <b>querer</b> sem <b>gostar</b> (toxicodependência tardia). Se satisfazer um desejo não aumenta o bem-estar, o critério de bem-estar baseado na escolha revelada desmorona-se — o argumento mais subversivo da Parte 5."><div class="gt-term">Liking vs Wanting</div><span class="gt-part">P5 · 5</span></div>
+  </div>
+  <div class="no-res">Nenhum termo corresponde à pesquisa.</div>
+
+  <div class="gmodal" id="gmodal" role="dialog" aria-modal="true">
+    <div class="gm-bg"></div>
+    <div class="gmodal-card">
+      <button class="gm-close" aria-label="Fechar">×</button>
+      <span class="gm-pill"></span>
+      <h3 class="gm-term"></h3>
+      <div class="gm-label">Em resumo</div>
+      <div class="gm-summary"></div>
+      <div class="gm-label">Mais a fundo</div>
+      <div class="gm-detail"></div>
+      <button class="gm-goto" data-target=""><span class="arr">→</span>&nbsp;Rever em: <b class="gm-goto-label"></b></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div class="foot">
+  <div class="credit">
+    <svg class="credit-mark" viewBox="0 0 140 112" aria-label="H.U.M.I.L.D.A.D.E"><use href="#logo-humildade"/></svg>
+    <div>
+      <div class="credit-name">H.U.M.I.L.D.A.D.E</div>
+      <div class="credit-role">Responsável por este guia de estudo</div>
+    </div>
+  </div>
+  <div class="foot-note">Economia Comportamental 2025-26 · ISCTE.<br>Resumos e diagramas recriados a partir do conteúdo das aulas.</div>
+  <div class="foot-tag">#VOTEMNOMATA</div>
+</div>
+
+</div><!-- /wrap -->
+</main>
+</div><!-- /shell -->
+
+<script>
+// ---------- progress bar ----------
+const prog=document.getElementById('progress');
+function onScroll(){ const h=document.documentElement.scrollHeight-window.innerHeight; prog.style.width=(h>0?window.scrollY/h*100:0)+'%'; }
+window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+// ---------- mobile menu + desktop collapse ----------
+const sb=document.getElementById('sidebar'), mb=document.getElementById('menuBtn'), scrim=document.getElementById('scrim'), shell=document.querySelector('.shell');
+function toggleMenu(open){ sb.classList.toggle('open',open); scrim.classList.toggle('show',open); }
+mb&&mb.addEventListener('click',()=>toggleMenu(!sb.classList.contains('open')));
+scrim&&scrim.addEventListener('click',()=>toggleMenu(false));
+document.getElementById('sbToggle')?.addEventListener('click',()=>shell.classList.add('collapsed'));
+document.getElementById('sbOpen')?.addEventListener('click',()=>shell.classList.remove('collapsed'));
+
+// ---------- reveal on scroll ----------
+const rev=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rev.unobserve(e.target);} }); },{rootMargin:'0px 0px -6% 0px',threshold:.04});
+function observeReveals(root){ (root||document).querySelectorAll('.r:not(.in)').forEach((el,i)=>{ el.style.transitionDelay=Math.min(i%6*40,200)+'ms'; rev.observe(el); }); }
+
+// ---------- exam reveal ----------
+function reveal(btn){ const ans=btn.nextElementSibling; const open=ans.classList.toggle('show'); btn.textContent=open?'▲ Ocultar resolução':'▼ Ver resolução'; }
+
+// ---------- PAGED ROUTER ----------
+const pages=[...document.querySelectorAll('.page')];
+const spine=['home','p1','p2','p3','p4','p5','freq','exame','glossario'];
+const spineTitle={home:'Início',p1:'Parte 1 · Postulados',p2:'Parte 2 · Racionalidade limitada',p3:'Parte 3 · Preferências sociais',p4:'Parte 4 · Instituições e políticas',p5:'Parte 5 · Recentes',freq:'Frequência 2023-24',exame:'Exame 1ª Época 2023-24',glossario:'Glossário'};
+const deepOf={p1:'deep1',p2:'deep2',p3:'deep3',p4:'deep4',p5:'deep5'};
+const partOfDeep={deep1:'p1',deep2:'p2',deep3:'p3',deep4:'p4',deep5:'p5'};
+const idToPage={};
+pages.forEach(pg=>{ idToPage[pg.id]=pg.id; pg.querySelectorAll('[id]').forEach(el=>{ idToPage[el.id]=pg.id; }); });
+
+function buildFooter(id){
+  const i=spine.indexOf(id), prev=spine[i-1], next=spine[i+1];
+  let h='<div class="pagenav">';
+  h+= prev?`<button class="pn prev" data-target="${prev}"><small>◀ Recuar</small>${spineTitle[prev]}</button>`:'<span class="pn prev disabled"></span>';
+  if(deepOf[id]) h+=`<button class="pn deeper" data-target="${deepOf[id]}"><small>⤓ aprofundar</small><b>Vai mais fundo</b></button>`;
+  h+= next?`<button class="pn next" data-target="${next}"><small>Avançar ▶</small>${spineTitle[next]}</button>`:'<span class="pn next disabled"></span>';
+  return h+'</div>';
+}
+spine.forEach(id=>{ if(id==='home')return; const pg=document.getElementById(id); pg&&pg.insertAdjacentHTML('beforeend',buildFooter(id)); });
+Object.keys(partOfDeep).forEach(did=>{ const pg=document.getElementById(did); if(!pg)return; const part=partOfDeep[did], i=spine.indexOf(part), next=spine[i+1];
+  let h='<div class="pagenav">';
+  h+=`<button class="pn prev" data-target="${part}"><small>◀ Voltar ao resumo</small>${spineTitle[part]}</button>`;
+  h+= next?`<button class="pn next" data-target="${next}"><small>Avançar ▶</small>${spineTitle[next]}</button>`:'<span class="pn next disabled"></span>';
+  pg.insertAdjacentHTML('beforeend',h+'</div>'); });
+
+function showPage(pageId,anchorId){
+  const pg=document.getElementById(pageId); if(!pg)return;
+  pages.forEach(p=>p.classList.remove('active'));
+  pg.classList.add('active');
+  document.querySelectorAll('#nav a').forEach(a=>{ const t=a.getAttribute('href').slice(1); a.classList.toggle('active',(idToPage[t]||t)===pageId); });
+  observeReveals(pg);
+  window.scrollTo(0,0);
+  if(anchorId && anchorId!==pageId){ const el=document.getElementById(anchorId); el && setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),70); }
+  try{ history.replaceState(null,'','#'+(anchorId||pageId)); }catch(e){}
+}
+function navTo(targetId){ const pageId=idToPage[targetId]||targetId; showPage(pageId,targetId); }
+
+// delegation: any [data-target] or [data-goto] navigates
+document.addEventListener('click',e=>{
+  const nav=e.target.closest('[data-target],[data-goto]');
+  if(!nav) return;
+  if(nav.classList.contains('gtile')) return; // tiles abrem o modal (openGloss), não navegam
+  const id=nav.dataset.target||nav.dataset.goto;
+  if(idToPage[id]){ e.preventDefault(); if(nav.closest('.gmodal'))closeModal(); navTo(id); if(window.innerWidth<=880)toggleMenu(false); }
+});
+document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); navTo(a.getAttribute('href').slice(1)); if(window.innerWidth<=880)toggleMenu(false); }));
+
+// ---------- glossary tiles + modal + search ----------
+const gmodal=document.getElementById('gmodal');
+function openGloss(t){
+  gmodal.querySelector('.gm-term').textContent=t.dataset.term;
+  const pill=gmodal.querySelector('.gm-pill'); pill.textContent=t.dataset.partlabel; pill.style.color=t.dataset.pc; pill.style.background='color-mix(in srgb,'+t.dataset.pc+' 16%, transparent)';
+  gmodal.querySelector('.gm-summary').innerHTML=t.dataset.summary;
+  gmodal.querySelector('.gm-detail').innerHTML=t.dataset.detail;
+  const go=gmodal.querySelector('.gm-goto'); go.dataset.target=t.dataset.goto; go.querySelector('.gm-goto-label').textContent=t.dataset.gotolabel;
+  gmodal.classList.add('open');
+}
+function closeModal(){ gmodal&&gmodal.classList.remove('open'); }
+function glossSearch(q){
+  q=(q||'').trim().toLowerCase(); let n=0;
+  document.querySelectorAll('.gtile').forEach(t=>{ const hit=!q||t.dataset.k.includes(q); t.classList.toggle('hide',!hit); if(hit)n++; });
+  const c=document.getElementById('gcount'); if(c)c.textContent=n+' termo'+(n===1?'':'s');
+  const nr=document.querySelector('.no-res'); if(nr)nr.style.display=n?'none':'block';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.gtile').forEach(t=>t.addEventListener('click',()=>openGloss(t)));
+  if(gmodal){ gmodal.querySelector('.gm-bg').addEventListener('click',closeModal); gmodal.querySelector('.gm-close').addEventListener('click',closeModal); }
+  glossSearch('');
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeModal(); });
+
+// ---------- init route ----------
+observeReveals();
+(function(){ const id=location.hash.slice(1); if(id && idToPage[id]) navTo(id); else showPage('home'); })();
+</script>
+</body>
+</html>
