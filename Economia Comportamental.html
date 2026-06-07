@@ -42,7 +42,7 @@ body{
 /* ---------- sidebar ---------- */
 #sidebar{
   width:var(--sidebar); flex-shrink:0; position:sticky; top:0; height:100vh;
-  border-right:1px solid var(--line); background:rgba(13,14,19,.82); backdrop-filter:blur(12px);
+  border-right:1px solid var(--line); background:rgba(13,14,19,.82); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   padding:26px 18px 40px; overflow-y:auto; z-index:90;
 }
 .brand{font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:-.02em; line-height:1.15; margin-bottom:4px}
@@ -174,7 +174,7 @@ td b{color:#fff}
   #sidebar{position:fixed; top:0; left:0; width:min(86vw,320px); height:100vh; transform:translateX(-104%); transition:transform .28s ease; box-shadow:0 0 60px rgba(0,0,0,.6)}
   #sidebar.open{transform:none}
   .topbar{display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:80; padding:12px 16px;
-    background:rgba(13,14,19,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+    background:rgba(13,14,19,.9); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
   #menuBtn{display:inline-flex; flex-direction:column; gap:4px; background:none; border:none; cursor:pointer; padding:6px}
   #menuBtn span{width:22px; height:2px; background:var(--tx); border-radius:2px; transition:.2s}
   .topbar .tb-title{font-family:var(--display); font-weight:700; font-size:15px}
@@ -195,15 +195,18 @@ td b{color:#fff}
 .brandrow{display:flex; align-items:flex-start; gap:10px}
 #sbToggle{margin-left:auto; background:none; border:1px solid var(--line2); color:var(--tx2); border-radius:8px; cursor:pointer; padding:3px 8px; font-size:14px; line-height:1; transition:.15s}
 #sbToggle:hover{color:var(--tx); border-color:var(--accent)}
-#sidebar{transition:width .28s ease, padding .28s ease, opacity .2s ease}
-.shell.collapsed #sidebar{width:0; min-width:0; padding-left:0; padding-right:0; opacity:0; overflow:hidden; border-right:none}
-#sbOpen{position:fixed; left:16px; top:16px; z-index:95; display:none; align-items:center; gap:8px; background:rgba(13,14,19,.9); backdrop-filter:blur(8px); border:1px solid var(--line2); color:var(--tx); border-radius:10px; padding:9px 13px; cursor:pointer; font-family:var(--mono); font-size:12.5px; box-shadow:0 8px 24px rgba(0,0,0,.4)}
-#sbOpen:hover{border-color:var(--accent)}
-.shell.collapsed #sbOpen{display:inline-flex}
-@media(max-width:880px){ #sbToggle{display:none} .shell.collapsed #sbOpen{display:none}
-  /* o "collapsed" é só do PC; no telemóvel a barra abre via menuBtn, não pode ficar a 0 */
-  .shell.collapsed #sidebar{width:min(86vw,320px); min-width:0; padding:26px 18px 40px; opacity:1; overflow-y:auto; border-right:1px solid var(--line)}
+/* IMPORTANTE: o "collapsed" (barra recolhida) é uma funcionalidade SÓ de PC.
+   No telemóvel a barra é fixa e abre/fecha pelo botão ☰ — por isso TODAS as
+   regras de collapse vivem dentro deste @media(min-width:881px). Assim o estado
+   collapsed nunca toca na barra mobile, independentemente de especificidade. */
+@media(min-width:881px){
+  #sidebar{transition:width .28s ease, padding .28s ease, opacity .2s ease}
+  .shell.collapsed #sidebar{width:0; min-width:0; padding-left:0; padding-right:0; opacity:0; overflow:hidden; border-right:none}
+  #sbOpen{position:fixed; left:16px; top:16px; z-index:95; display:none; align-items:center; gap:8px; background:rgba(13,14,19,.9); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid var(--line2); color:var(--tx); border-radius:10px; padding:9px 13px; cursor:pointer; font-family:var(--mono); font-size:12.5px; box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  #sbOpen:hover{border-color:var(--accent)}
+  .shell.collapsed #sbOpen{display:inline-flex}
 }
+@media(max-width:880px){ #sbToggle{display:none} #sbOpen{display:none!important} }
 
 /* home floating cards */
 .home-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:16px; margin:26px 0 10px}
