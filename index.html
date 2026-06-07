@@ -288,9 +288,10 @@ td b{color:#fff}
 
 /* ===== download buttons ===== */
 .page{position:relative}
-.dl-btn{position:absolute; top:0; right:0; z-index:6; display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:12px; color:var(--accent); background:color-mix(in srgb,var(--accent) 13%, transparent); border:1px solid color-mix(in srgb,var(--accent) 34%, transparent); border-radius:10px; padding:7px 13px; text-decoration:none; transition:.15s}
-.dl-btn:hover{background:var(--accent); color:var(--bg)}
-.part .part-head, .deep .deep-banner{padding-right:104px}
+.dl-btn{position:absolute; top:-2px; right:0; z-index:6; display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-weight:700; font-size:13.5px; letter-spacing:.01em; color:#08131a; background:var(--accent); border:none; border-radius:12px; padding:10px 17px; text-decoration:none; box-shadow:0 6px 20px var(--accent-glow), 0 0 0 1px color-mix(in srgb,var(--accent) 55%, transparent); transition:.16s}
+.dl-btn:hover{transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 13px 30px var(--accent-glow)}
+.dl-btn .di{font-size:16px; line-height:1}
+.part .part-head, .deep .deep-banner{padding-right:176px}
 @media(max-width:880px){ .dl-btn{position:static; margin-bottom:14px} .part .part-head,.deep .deep-banner{padding-right:0} }
 
 /* ===== document parts that only appear in the PDF ===== */
@@ -1499,7 +1500,7 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeModal(); });
 
 // ---------- download buttons (one per section) ----------
 const dlFile={p1:'parte-1',p2:'parte-2',p3:'parte-3',p4:'parte-4',p5:'parte-5',deep1:'parte-1',deep2:'parte-2',deep3:'parte-3',deep4:'parte-4',deep5:'parte-5',glossario:'glossario',freq:'avaliacao',exame:'avaliacao'};
-Object.entries(dlFile).forEach(([id,f])=>{ const pg=document.getElementById(id); if(!pg)return; const a=document.createElement('a'); a.className='dl-btn'; a.href='pdfs/'+f+'.pdf'; a.setAttribute('download',''); a.title='Descarregar esta secção em PDF'; a.innerHTML='⬇ PDF'; pg.insertBefore(a,pg.firstChild); });
+Object.entries(dlFile).forEach(([id,f])=>{ const pg=document.getElementById(id); if(!pg)return; const a=document.createElement('a'); a.className='dl-btn'; a.href='pdfs/'+f+'.pdf'; a.setAttribute('download',''); a.title='Descarregar esta secção em PDF'; a.innerHTML='<span class="di">⬇</span> Descarregar PDF'; pg.insertBefore(a,pg.firstChild); });
 
 // ---------- PDF document mode (used by headless generator) ----------
 const pdfShow={p1:['p1','deep1'],p2:['p2','deep2'],p3:['p3','deep3'],p4:['p4','deep4'],p5:['p5','deep5'],glossario:['glossario'],avaliacao:['freq','exame']};
